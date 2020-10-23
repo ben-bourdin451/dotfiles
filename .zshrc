@@ -25,9 +25,9 @@ export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin #core utils
 
 # Emacs
 if [[ -n $SSH_CONNECTION ]]; then
-	export EDITOR="emacs"
+		export EDITOR="emacs"
 else
-	export EDITOR="emacs"
+		export EDITOR="emacs"
 fi
 
 # OS specific
