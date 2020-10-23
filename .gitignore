@@ -1,0 +1,30 @@
+.cfg
+.dotfiles
+
+.DS_Store
+.DS_Store?
+target
+*~
+*.sublime-*
+.java-version
+.env
+
+# vscode
+.vscode
+.factorypath
+
+# Intellij
+*.iml
+.idea
+
+# Eclipse
+**/.settings/*
+.classpath
+.project
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.temp_credentials
+*.terraform
+*.lock
