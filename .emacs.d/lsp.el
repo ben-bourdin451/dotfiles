@@ -103,19 +103,13 @@
 (use-package js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
+(use-package vue-mode
+  :mode "\\.vue\\'"
+  :config
+  (add-hook 'vue-mode-hook #'lsp))
+
 ;; ts
 (use-package typescript-mode)
-
-;; json
-(use-package json-reformat
-	:config
-	(setq json-reformat:indent-width 2))
-(use-package json-mode
-	:after json-reformat)
-(add-hook 'json-mode-hook (lambda()
-														(setq indent-tabs-mode nil)
-														(setq indent-line-function 'insert-tab)
-														))
 
 ;; Lua
 (use-package lua-mode
