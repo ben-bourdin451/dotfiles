@@ -72,8 +72,6 @@
 
 ;; Nyan cat
 (use-package nyan-mode
-	:config
-	(setq nyan-bar-length 40)
 	:init
 	(nyan-mode 1))
 
@@ -124,7 +122,7 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 
 ;; change font size
-;; (set-face-attribute 'default (selected-frame) :height 170)
+(set-face-attribute 'default (selected-frame) :height 150)
 
 ;; Packages
 (use-package try)
@@ -142,7 +140,6 @@
 
 ;; better undo
 (use-package undo-tree
-  :ensure t
   :init
   (global-undo-tree-mode))
 
@@ -153,12 +150,13 @@
 ;; multi-cursors
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors)
-;;(define-key mc/keymap (kbd "<return>") nil) ; make <return> insert newlines; quit with C-g
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "M-S-<down>") 'mc/mark-next-like-this)
 (global-set-key (kbd "M-S-<up>") 'mc/mark-previous-like-this)
-(global-set-key (kbd "M-d") 'mc/mark-next-like-this-symbol)
-(global-set-key (kbd "M-D") 'mc/mark-previous-like-this-symbol)
+(global-set-key (kbd "M-S-<down>") 'mc/mark-next-like-this)
+(global-set-key (kbd "M-d") 'mc/mark-next-like-this-word)
+(global-set-key (kbd "M-D") 'mc/mark-previous-like-this-word)
+
+;; (define-key mc/keymap (kbd "<return>") nil) ; make <return> insert newlines; quit with C-g
 
 (use-package crux)
 (global-set-key (kbd "C-S-d") 'crux-duplicate-current-line-or-region)
