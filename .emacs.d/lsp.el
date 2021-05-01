@@ -5,6 +5,9 @@
 
 ;;; Code:
 
+;; General save hooks
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
+
 ;; LSP mode
 ; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode
@@ -48,9 +51,12 @@
   "
  Buffer^^               Server^^                   Symbol
 -------------------------------------------------------------------------------------
- [_f_] format           [_M-r_] restart            [_d_] declaration  [_i_] implementation  [_o_] documentation
- [_m_] imenu            [_S_]   shutdown           [_D_] definition   [_t_] type            [_r_] rename
- [_x_] execute action   [_M-s_] describe session   [_R_] references   [_s_] signature"
+ [_f_] format           [_M-r_] restart            [_d_] declaration     [_i_] implementation
+ [_m_] imenu            [_S_]   shutdown           [_D_] definition      [_t_] type
+ [_n_] next error       [_M-s_] describe session   [_o_] documentation   [_s_] signature
+ [_p_] prev error                                [_R_] references      [_r_] rename
+ [_l_] list errors
+ [_x_] execute action                            [_q_] quit"
   ("d" lsp-find-declaration)
   ("D" lsp-ui-peek-find-definitions)
   ("R" lsp-ui-peek-find-references)
@@ -60,9 +66,15 @@
   ("o" lsp-describe-thing-at-point)
   ("r" lsp-rename)
 
+	("n" flycheck-next-error :exit nil)
+	("p" flycheck-previous-error :exit nil)
+	("l" flycheck-list-errors)
+
   ("f" lsp-format-buffer)
   ("m" lsp-ui-imenu)
   ("x" lsp-execute-code-action)
+  ("q" nil)
+  ("RET" nil)
 
   ("M-s" lsp-describe-session)
   ("M-r" lsp-workspace-restart)
@@ -110,6 +122,9 @@
 
 ;; ts
 (use-package typescript-mode)
+
+;; yaml
+(use-package yaml-mode)
 
 ;; Lua
 (use-package lua-mode
