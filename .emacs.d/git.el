@@ -114,4 +114,11 @@ Git gutter:
         (repo-url (git-repo)))
     (concat repo-url "/blob/" branch (replace-regexp-in-string basedir "" filename))))
 
+(defun git-grep-dir ()
+	"Git grep in current buffer's directory."
+	(interactive)
+	(counsel-git-grep nil (file-name-directory (buffer-file-name)) t))
+
+(global-set-key (kbd "C-c f") 'git-grep-dir)
+
 ;;; git.el ends here
