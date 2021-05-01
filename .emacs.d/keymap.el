@@ -19,8 +19,16 @@
 (global-set-key (kbd "M-j") 'windmove-down)
 (global-set-key (kbd "M-k") 'windmove-up)
 
+(global-set-key (kbd "C-c u") (fset 'untabify-all
+   [?\C-x ?h ?\M-x ?u ?n ?t return]))
+
+(global-set-key (kbd "C-c b e") (fset 'b64-encode-all
+   [?\C-x ?h ?\M-x ?b ?a ?s ?e return]))
+(global-set-key (kbd "C-c b d") (fset 'b64-decode-all
+   [?\C-x ?h ?\M-x ?b ?a ?s ?e ?\C-n return]))
+
 ;; set super v to yank on linux for mac compatibility
 (when (eq system-type 'gnu/linux)
-	(global-set-key (kbd "s-v") 'yank))
+  (global-set-key (kbd "s-v") 'yank))
 
 ;;; keymap.el ends here
