@@ -18,6 +18,7 @@ plugins=(git aws npm nvm pip docker docker-compose kubectl rvm gem)
 source $ZSH/oh-my-zsh.sh
 alias szsh='source ~/.zshrc'
 export LANG=en_GB.UTF-8
+source $HOME/env.sh
 
 # PATH
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin

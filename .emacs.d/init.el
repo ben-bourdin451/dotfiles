@@ -122,7 +122,7 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 
 ;; change font size
-(set-face-attribute 'default (selected-frame) :height 150)
+(set-face-attribute 'default (selected-frame) :height 130)
 
 ;; Packages
 (use-package try)
@@ -209,7 +209,7 @@
  '(lsp-enable-snippet nil)
  '(lsp-prefer-flymake nil t)
  '(package-selected-packages
-	 '(vue-mode zoom-window smart-tabs-mode dockerfile-mode typescript-mode json-reformat js2-mode groovy-mode nyan-mode gotest company-go lsp-ivy lsp-ui doom-themes terraform-mode dap-mode posframe lsp-treemacs sbt-mode scala-mode crux yasnippet-snippets yasnippet doom-modeline lsp-mode hcl-mode treemacs-magit dumb-jump undo-tree multiple-cursors git-timemachine expand-region magit git-gutter dired+ treemacs-icons-dired treemacs-projectile treemacs lua-mode ivy which-key go-mode flycheck company counsel swiper try use-package)))
+	 '(yaml-mode vue-mode zoom-window smart-tabs-mode dockerfile-mode typescript-mode json-reformat js2-mode groovy-mode nyan-mode gotest company-go lsp-ivy lsp-ui doom-themes terraform-mode dap-mode posframe sbt-mode scala-mode crux yasnippet-snippets yasnippet doom-modeline lsp-mode hcl-mode treemacs-magit dumb-jump undo-tree multiple-cursors git-timemachine expand-region magit git-gutter dired+ treemacs-icons-dired treemacs-projectile treemacs lua-mode ivy which-key go-mode flycheck company counsel swiper try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

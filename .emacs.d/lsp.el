@@ -44,7 +44,7 @@
 	:commands lsp-treemacs-errors-list
 	:init
 	(lsp-treemacs-sync-mode 1))
-	;; (lsp-metals-treeview-show-when-views-received t))
+;; (lsp-metals-treeview-show-when-views-received t))
 
 ;; https://github.com/abo-abo/hydra/wiki/lsp-mode
 (defhydra hydra-lsp (:exit t :hint nil)
