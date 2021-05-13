@@ -38,7 +38,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 		alias ec="emacsappclient"
 
 		alias vpnreset='sudo ifconfig en0 down && sudo route -n flush && sudo ifconfig en0 up'
-		
+
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 		alias emacs="emacsclient"
 
@@ -108,11 +108,10 @@ eval "$(jenv init -)"
 #########
 # Go
 #########
-export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
-
+alias go="$GOPATH/bin/go"
 
 #########
 # Ruby
@@ -197,7 +196,7 @@ pwtrunc() {
     if [ -z $3 ]; then
         read "3?3rd: "
     fi
-    
+
     echo ${pw:$(($1-1)):1}${pw:$(($2-1)):1}${pw:$(($3-1)):1}
 }
 
@@ -235,4 +234,3 @@ unescape() { pbpaste | sed 's/\\"/"/g' | sed 's/\\\\"/"/g' | sed 's/"{/{/g' | se
 
 alias rmlogs='find logs -type f -mtime +1 -exec rm {} \;'
 alias rmsublworkspaces='find $HOME/workspace -type f -name "*.sublime-workspace" -exec rm {} \;'
-
