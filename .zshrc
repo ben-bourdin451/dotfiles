@@ -77,10 +77,7 @@ export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 #########
 # Python - sucks
 #########
-#export PIP_HOME=$HOME/Library/Python/2.7/lib/python/site-packages
-#export PIP_HOME=$HOME/Library/Python/3.6/lib/python/site-packages
-#export PATH=$PATH:$HOME/Library/Python/3.6/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/opt/python/libexec/bin
-#export PATH=$PATH:$HOME/Library/Python/2.7/bin # python2.7 pip
+export PATH=$PATH:$HOME/.local/bin
 
 # pyenv
 export PYENV_ROOT=/usr/local/var/pyenv
@@ -231,6 +228,39 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 now() { date +%s }
 tping() { ping "$@" | perl -nle "print scalar(localtime), " ", $_"; } # ping with timestamp
 unescape() { pbpaste | sed 's/\\"/"/g' | sed 's/\\\\"/"/g' | sed 's/"{/{/g' | sed 's/}"/}/g' | pbcopy }
+
+loadtest() {
+		DURATION=60 # seconds
+		TPS=20 # number of requests per second
+		end=$((SECONDS+$DURATION))
+		#start load
+		while [ $SECONDS -lt $end ];
+		do
+				for ((i=1;i<=$TPS;i++)); do
+						curl -X POST <url> -H 'Accept: application/json' -H 'Authorization: Bearer xxxxxxxxxxxxx' -H 'Content-Type: application/json' -d '{}' --cacert /path/to/cert/cert.crt -o /dev/null -s -w '%{time_starttransfer}\n' >> response-times.log &
+				done
+				sleep 1
+		done
+		wait
+		#end load
+		echo "Load test has been completed"
+}
+
+healthcheck() {
+		DURATION=300 # seconds
+		end=$((SECONDS+$DURATION))
+
+		while [ $SECONDS -lt $end ];
+		do
+				for ((i=1;i<=$TPS;i++)); do
+						$1 &
+				done
+				sleep 1
+		done
+		wait
+
+		echo "finished"
+}
 
 alias rmlogs='find logs -type f -mtime +1 -exec rm {} \;'
 alias rmsublworkspaces='find $HOME/workspace -type f -name "*.sublime-workspace" -exec rm {} \;'
