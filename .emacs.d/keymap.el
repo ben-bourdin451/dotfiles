@@ -29,6 +29,7 @@
 
 ;; set super v to yank on linux for mac compatibility
 (when (eq system-type 'gnu/linux)
-  (global-set-key (kbd "s-v") 'yank))
+  (global-set-key (kbd "s-v") 'yank)
+  (global-set-key (kbd "s-s") 'save-buffer))
 
 ;;; keymap.el ends here
