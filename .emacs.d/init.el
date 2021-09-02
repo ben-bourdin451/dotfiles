@@ -210,7 +210,7 @@
  '(lsp-go-build-flags ["-tags=integration"])
  '(lsp-prefer-flymake nil t)
  '(package-selected-packages
-	 '(yaml-mode vue-mode zoom-window smart-tabs-mode dockerfile-mode typescript-mode json-reformat js2-mode groovy-mode nyan-mode gotest company-go lsp-ivy lsp-ui doom-themes terraform-mode dap-mode posframe sbt-mode scala-mode crux yasnippet-snippets yasnippet doom-modeline lsp-mode hcl-mode treemacs-magit dumb-jump undo-tree multiple-cursors git-timemachine expand-region magit git-gutter dired+ treemacs-icons-dired treemacs-projectile treemacs lua-mode ivy which-key go-mode flycheck company counsel swiper try use-package))
+	 '(flycheck-golangci-lint yaml-mode vue-mode zoom-window smart-tabs-mode dockerfile-mode typescript-mode json-reformat js2-mode groovy-mode nyan-mode gotest company-go lsp-ivy lsp-ui doom-themes terraform-mode dap-mode posframe sbt-mode scala-mode crux yasnippet-snippets yasnippet doom-modeline lsp-mode hcl-mode treemacs-magit dumb-jump undo-tree multiple-cursors git-timemachine expand-region magit git-gutter dired+ treemacs-icons-dired treemacs-projectile treemacs lua-mode ivy which-key go-mode flycheck company counsel swiper try use-package))
  '(zoom-window-mode-line-color "DarkGreen"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

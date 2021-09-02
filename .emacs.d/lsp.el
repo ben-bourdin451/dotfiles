@@ -98,6 +98,11 @@
 ;; Language specific  packages
 ; Golang
 (use-package go-mode)
+(use-package flycheck-golangci-lint
+  :ensure t
+  :hook (go-mode . flycheck-golangci-lint-setup)
+	:config
+	(setq flycheck-golangci-lint-config "~/workspace/gists/golangci.yml"))
 
 (use-package gotest)
 ;; (define-key go-mode-map (kbd "C-c t") 'go-test-current-test)
