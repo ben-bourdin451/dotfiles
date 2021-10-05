@@ -102,7 +102,8 @@
   :ensure t
   :hook (go-mode . flycheck-golangci-lint-setup)
 	:config
-	(setq flycheck-golangci-lint-config "~/workspace/gists/golangci.yml"))
+	;; (setq flycheck-golangci-lint-config "~/workspace/gists/golangci.yml")
+	(setq flycheck-golangci-lint-fast t))
 
 (use-package gotest)
 ;; (define-key go-mode-map (kbd "C-c t") 'go-test-current-test)
