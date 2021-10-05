@@ -98,12 +98,15 @@
 ;; Language specific  packages
 ; Golang
 (use-package go-mode)
-(use-package flycheck-golangci-lint
-  :ensure t
-  :hook (go-mode . flycheck-golangci-lint-setup)
-	:config
-	;; (setq flycheck-golangci-lint-config "~/workspace/gists/golangci.yml")
-	(setq flycheck-golangci-lint-fast t))
+;; TODO: chain linters correctly
+;; https://github.com/flycheck/flycheck/issues/1762
+;; https://github.com/weijiangan/flycheck-golangci-lint/issues/8
+;; (use-package flycheck-golangci-lint
+;;   :ensure t
+;;   :hook (go-mode . flycheck-golangci-lint-setup)
+;; 	:config
+;; 	;; (setq flycheck-golangci-lint-config "~/workspace/gists/golangci.yml")
+;; 	(setq flycheck-golangci-lint-fast t))
 
 (use-package gotest)
 ;; (define-key go-mode-map (kbd "C-c t") 'go-test-current-test)
