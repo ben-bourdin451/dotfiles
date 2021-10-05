@@ -3,13 +3,9 @@
 
 ;; Missing stuff
 ;; * symbol navigation hydra - https://github.com/bgwines/symbol-navigation-hydra/tree/6fd5d5dbcf9c57659a88d39a9cb1a8b819028360
-;; * tmux style zoom buffer
 ;; * scratch files with different modes
 ;; * custom shorcuts for frames
 ;; * go gen tests https://github.com/s-kostyaev/go-gen-test
-;; * tramp for editing over ssh
-;; * shell with aliases
-;; * terraform-ls https://github.com/hashicorp/terraform-ls
 ;; * shell with aliases
 ;; * terraform-ls https://github.com/hashicorp/terraform-ls
 ;; * RSS feeds: elfeed or NewsTicker

@@ -48,9 +48,9 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     alias pbcopy='copyq add -'
     alias pbpaste='copyq read 0'
 fi
-alias eprofile='emacs -nw $HOME/.zshrc'
-alias etmuxconf='emacs -nw $HOME/.tmux.conf'
-alias esshconf='emacs -nw $HOME/.ssh/config'
+alias eprofile='emacsclient -nw $HOME/.zshrc'
+alias etmuxconf='emacsclient -nw $HOME/.tmux.conf'
+alias esshconf='emacsclient -nw $HOME/.ssh/config'
 
 ###############
 # General
