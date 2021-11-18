@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: rerr
+# key: rerr
+# --
+require.Nil(t, err)
