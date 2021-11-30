@@ -19,7 +19,7 @@
 	(lsp-prefer-flymake nil) ; use flycheck instead of flymake
 	:bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
 	:hook (
-				 ((go-mode scala-mode typescript-mode) . lsp)
+				 ((go-mode rust-mode scala-mode typescript-mode) . lsp)
 				 (lsp-mode . lsp-enable-which-key-integration)))
 (global-set-key (kbd "C-S-o") 'lsp-organize-imports)
 (global-set-key (kbd "M-RET") 'lsp-ui-sideline-apply-code-actions)
@@ -119,6 +119,12 @@
 													(company-mode)))
 (add-hook 'go-mode-hook
 					(lambda () (add-hook 'before-save-hook #'lsp-save-actions t 'local)))
+
+;; Rust
+(use-package rust-mode)
+
+(add-hook 'before-save-hook (lambda () (when (eq 'rust-mode major-mode)
+                                           (lsp-format-buffer))))
 
 ;; JS
 (use-package js2-mode)
