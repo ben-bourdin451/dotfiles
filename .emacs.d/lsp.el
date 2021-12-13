@@ -24,6 +24,9 @@
 (global-set-key (kbd "C-S-o") 'lsp-organize-imports)
 (global-set-key (kbd "M-RET") 'lsp-ui-sideline-apply-code-actions)
 
+;; (advice-add 'lsp :before (lambda (&rest _args) (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
+
+
 (defun lsp-save-actions ()
 	"LSP save actions."
 	(lsp-format-buffer)
@@ -137,6 +140,8 @@
 
 ;; ts
 (use-package typescript-mode)
+(add-hook 'before-save-hook (lambda () (when (eq 'typescript-mode major-mode)
+                                           (lsp-format-buffer))))
 
 ;; yaml
 (use-package yaml-mode)
