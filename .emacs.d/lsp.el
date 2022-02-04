@@ -130,9 +130,6 @@
                                            (lsp-format-buffer))))
 
 ;; JS
-(use-package js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
 (use-package vue-mode
   :mode "\\.vue\\'"
   :config
