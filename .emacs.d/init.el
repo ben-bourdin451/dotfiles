@@ -59,6 +59,7 @@
 	:init
 	;; (all-the-icons-install-fonts)
 	)
+
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
 
@@ -136,8 +137,9 @@
 
 ;; better undo
 (use-package undo-tree
-  :init
-  (global-undo-tree-mode))
+  :init (global-undo-tree-mode)
+	:custom
+	 (undo-tree-history-directory-alist '(("" . "~/.emacs.d/backup-undo-tree"))))
 
 ;; expand the marked region in semantic increments (negative prefix to reduce region)
 (use-package expand-region)

@@ -8,8 +8,15 @@
 ;; General save hooks
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
+;; editorconfig
+;; doesn't work
+;; (use-package editorconfig
+;;   :ensure t
+;;   :config
+;;   (editorconfig-mode 1))
+
 ;; LSP mode
-; https://github.com/emacs-lsp/lsp-mode
+;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode
 	:ensure t
 	:commands lsp
@@ -25,7 +32,6 @@
 (global-set-key (kbd "M-RET") 'lsp-ui-sideline-apply-code-actions)
 
 ;; (advice-add 'lsp :before (lambda (&rest _args) (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
-
 
 (defun lsp-save-actions ()
 	"LSP save actions."
@@ -88,19 +94,23 @@
 ;; Posframe is a pop-up tool that must be manually installed for dap-mode
 (use-package posframe)
 (use-package dap-mode
+	:custom
+	(dap-print-io t)
   :hook
   (lsp-mode . dap-mode)
   (lsp-mode . dap-ui-mode))
-
+(add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra)))
 
 ;; Performance
-; https://emacs-lsp.github.io/lsp-mode/page/installation/#performance
+;; https://emacs-lsp.github.io/lsp-mode/page/installation/#performance
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
 
 ;; Language specific  packages
 ; Golang
 (use-package go-mode)
+
 ;; TODO: chain linters correctly
 ;; https://github.com/flycheck/flycheck/issues/1762
 ;; https://github.com/weijiangan/flycheck-golangci-lint/issues/8
