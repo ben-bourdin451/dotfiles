@@ -129,11 +129,11 @@ alias awsmfa="$HOME/aws_mfa.sh"
 # Terraform
 #########
 # export TF_LOG="TRACE"
-export TF_LOG_PATH="$HOME/terraform/tf.log"
+export TF_LOG_PATH="$HOME/.terraform.d/tf.log"
 # export TF_VAR_gcp_creds="$HOME/.config/gcloud/application_default_credentials.json"
 
 alias tf="terraform"
-alias tflog='tail -f $HOME/terraform/tf.log'
+alias tflog='tail -f $TF_LOG_PATH'
 
 tf-set-creds() {
     creds=$(aws sts assume-role --role-arn $TF_ROLE --role-session-name 'ben-tf' --duration-seconds 3600)
@@ -150,6 +150,27 @@ tf-unset-creds() {
 
     mv ~/.aws/credentials.prev ~/.aws/credentials
 }
+
+# cdktf completion
+#compdef cdktf
+###-begin-cdktf-completions-###
+#
+# yargs command completion script
+#
+# Installation: cdktf completion >> ~/.zshrc
+#    or cdktf completion >> ~/.zsh_profile on OSX.
+#
+_cdktf_yargs_completions()
+{
+  local reply
+  local si=$IFS
+  IFS=$'
+' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" cdktf --get-yargs-completions "${words[@]}"))
+  IFS=$si
+  _describe 'values' reply
+}
+compdef _cdktf_yargs_completions cdktf
+###-end-cdktf-completions-###
 
 
 #########
