@@ -14,10 +14,11 @@
     (setq treemacs-position 'right
           treemacs-show-cursor nil)
 
-    ;; The default width and height of the icons is 22 pixels. If you are
-    ;; using a Hi-DPI display, uncomment this to double the icon size.
-    ;;(treemacs-resize-icons 44)
-    )
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)
+    (treemacs-hide-gitignored-files-mode nil))
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -32,9 +33,8 @@
   :ensure t)
 
 (use-package treemacs-icons-dired
-  :after treemacs dired
-  :ensure t
-  :config (treemacs-icons-dired-mode))
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
 
 (use-package treemacs-magit
   :after treemacs magit

@@ -26,7 +26,7 @@
 	(lsp-prefer-flymake nil) ; use flycheck instead of flymake
 	:bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
 	:hook (
-				 ((go-mode rust-mode scala-mode typescript-mode) . lsp)
+				 ((go-mode rust-mode scala-mode typescript-mode js-mode) . lsp)
 				 (lsp-mode . lsp-enable-which-key-integration)))
 (global-set-key (kbd "C-S-o") 'lsp-organize-imports)
 (global-set-key (kbd "M-RET") 'lsp-ui-sideline-apply-code-actions)
@@ -140,10 +140,15 @@
                                            (lsp-format-buffer))))
 
 ;; JS
+;; js-mode is built-in
 (use-package vue-mode
   :mode "\\.vue\\'"
   :config
   (add-hook 'vue-mode-hook #'lsp))
+(add-hook 'before-save-hook (lambda () (when (eq 'js-mode major-mode)
+																				 (lsp-format-buffer))))
+;; json
+;; highlighting support for editing json files is provided by js-mode
 
 ;; ts
 (use-package typescript-mode)

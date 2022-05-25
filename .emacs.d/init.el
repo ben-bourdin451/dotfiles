@@ -107,7 +107,7 @@
 (put 'narrow-to-region 'disabled nil)		; narrow regions
 (windmove-default-keybindings)					; better window movement
 (setq tramp-default-method "ssh")				; faster than default scp
-
+(setq electric-pair-mode t)							; pair quotes, brackets etc...
 ;; Unix utf8 please
 (set-default-coding-systems 'utf-8-unix)
 (prefer-coding-system 'utf-8-unix)
@@ -140,6 +140,9 @@
   :init (global-undo-tree-mode)
 	:custom
 	 (undo-tree-history-directory-alist '(("" . "~/.emacs.d/backup-undo-tree"))))
+
+;; ability to edit a grep buffer and apply those changes
+(use-package wgrep)
 
 ;; expand the marked region in semantic increments (negative prefix to reduce region)
 (use-package expand-region)
@@ -209,7 +212,7 @@
  '(lsp-go-build-flags ["-tags=integration"])
  '(lsp-prefer-flymake nil t)
  '(package-selected-packages
-	 '(rust-mode flycheck-golangci-lint yaml-mode vue-mode zoom-window smart-tabs-mode dockerfile-mode typescript-mode json-reformat js2-mode groovy-mode nyan-mode gotest company-go lsp-ivy lsp-ui doom-themes terraform-mode dap-mode posframe sbt-mode scala-mode crux yasnippet-snippets yasnippet doom-modeline lsp-mode hcl-mode treemacs-magit dumb-jump undo-tree multiple-cursors git-timemachine expand-region magit git-gutter dired+ treemacs-icons-dired treemacs-projectile treemacs lua-mode ivy which-key go-mode flycheck company counsel swiper try use-package))
+	 '(all-the-icons wgrep rust-mode flycheck-golangci-lint yaml-mode vue-mode zoom-window smart-tabs-mode dockerfile-mode typescript-mode groovy-mode nyan-mode gotest company-go lsp-ivy lsp-ui doom-themes terraform-mode dap-mode posframe sbt-mode scala-mode crux yasnippet-snippets yasnippet doom-modeline lsp-mode hcl-mode treemacs-magit dumb-jump undo-tree multiple-cursors git-timemachine expand-region magit git-gutter dired+ treemacs-icons-dired treemacs-projectile treemacs lua-mode ivy which-key go-mode flycheck company counsel swiper try use-package))
  '(zoom-window-mode-line-color "DarkGreen"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
