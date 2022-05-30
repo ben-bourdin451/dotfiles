@@ -19,6 +19,9 @@
 (global-set-key (kbd "M-j") 'windmove-down)
 (global-set-key (kbd "M-k") 'windmove-up)
 
+(global-set-key (kbd "C-c p") 'flycheck-previous-error)
+(global-set-key (kbd "C-c n") 'flycheck-next-error)
+
 (global-set-key (kbd "C-c u") (fset 'untabify-all
    [?\C-x ?h ?\M-x ?u ?n ?t return]))
 
