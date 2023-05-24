@@ -123,7 +123,7 @@ export PATH=$PATH:$GOBIN
 #########
 export AWS_DATA_PATH="$HOME/tools/aws-cli"
 alias awsmfa="$HOME/aws_mfa.sh"
-
+alias cdk="npx aws-cdk"
 
 #########
 # Terraform
@@ -229,9 +229,9 @@ alias dockerunset='unset DOCKER_TLS_VERIFY;unset DOCKER_CERT_PATH;unset DOCKER_M
 
 # Generic
 alias dockerexec='docker exec -it $(docker ps -q)' # runs the command on first running container
-alias dockerimageclean='docker rmi $(docker images -f "dangling=true" -q)'
+alias dockerimgclean='docker rmi $(docker images -f "dangling=true" -q)'
 alias dockerpsclean='docker rm $(docker ps -a -f status=exited -q)'
-alias dockerclean='dockerpsclean && dockerimageclean'
+alias dockerclean='docker system prune --volumes'
 
 
 #########

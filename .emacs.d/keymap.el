@@ -35,4 +35,18 @@
   (global-set-key (kbd "s-v") 'yank)
   (global-set-key (kbd "s-s") 'save-buffer))
 
+
+(defun couns-git ()
+  "Find file in the current Git repository."
+  (interactive)
+  (let* ((default-directory (locate-dominating-file
+                             default-directory ".git"))
+         (cands (split-string
+                 (shell-command-to-string
+                  "git ls-files --full-name --")
+                 "\n"))
+         (file (ivy-read "Find file: " cands)))
+    (when file
+      (find-file file))))
+(global-set-key (kbd "C-c s") 'couns-git)
 ;;; keymap.el ends here

@@ -26,7 +26,7 @@
 	(lsp-prefer-flymake nil) ; use flycheck instead of flymake
 	:bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
 	:hook (
-				 ((go-mode rust-mode scala-mode typescript-mode js-mode) . lsp)
+				 ((go-mode rust-mode typescript-mode js-mode) . lsp)
 				 (lsp-mode . lsp-enable-which-key-integration)))
 (global-set-key (kbd "C-S-o") 'lsp-organize-imports)
 (global-set-key (kbd "M-RET") 'lsp-ui-sideline-apply-code-actions)
@@ -107,7 +107,107 @@
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
 
+;;
+;; Github copilot
+;;
+
+;; dependencies
+;; (require 'cl)
+;; (let ((pkg-list '(use-package
+;; 		          s
+;; 		          dash
+;; 		          editorconfig
+;;                   company)))
+;;   (package-initialize)
+;;   (when-let ((to-install (map-filter (lambda (pkg _) (not (package-installed-p pkg))) pkg-list)))
+;;     (package-refresh-contents)
+;;     (mapc (lambda (pkg) (package-install pkg)) pkg-list)))
+
+;; (use-package copilot
+;;   :load-path (lambda () (expand-file-name "copilot.el" user-emacs-directory))
+;;   ;; don't show in mode line
+;;   :diminish
+;; 	:ensure t)
+
+;; configure completion
+;; (add-hook 'prog-mode-hook 'copilot-mode)
+
+;; (defvar my/copilot-modes '(go-mode
+;;                               js-mode
+;; 															ts-mode
+;;                               vue-mode
+;; 															dockerfile-mode
+;; 															hcl-mode
+;; 															yaml-mode
+;; 															ruby-mode
+;; 															lua-mode
+;; 															terraform-mode
+;; 															)
+;;   "Modes in which copilot is enabled.")
+;; (defun my/copilot-enable-predicate ()
+;;   "When copilot should automatically show completions."
+;;   (or (member major-mode my/copilot-modes)
+;;       (company--active-p)))
+;; (add-to-list 'copilot-enable-predicates #'my/copilot-enable-predicate)
+
+;; copilot bindings
+;; (defun my/copilot-complete-or-accept ()
+;;   "Command that either triggers a completion or accepts one if one
+;; is available"
+;;   (interactive)
+;;   (if (copilot--overlay-visible)
+;;       (progn
+;;         (copilot-accept-completion)
+;;         (open-line 1)
+;;         (next-line))
+;;     (copilot-complete)))
+;; (define-key copilot-mode-map (kbd "M-C-<next>") #'copilot-next-completion)
+;; (define-key copilot-mode-map (kbd "M-C-<prior>") #'copilot-previous-completion)
+;; (define-key copilot-mode-map (kbd "M-C-<right>") #'copilot-accept-completion-by-word)
+;; (define-key copilot-mode-map (kbd "M-C-<down>") #'copilot-accept-completion-by-line)
+;; (define-key global-map (kbd "M-C-<return>") #'my/copilot-complete-or-accept)
+
+; tab
+;; (defun my/copilot-tab ()
+;;   "Tab command that will complete with copilot if a completion is
+;; available. Otherwise will try company, yasnippet or normal
+;; tab-indent."
+;;   (interactive)
+;;   (or (copilot-accept-completion)
+;;       (company-yasnippet-or-completion)
+;;       (indent-for-tab-command)))
+;; (define-key global-map (kbd "<tab>") #'my/copilot-tab)
+
+;; configure completion accept
+;; (with-eval-after-load 'company
+;;   ;; disable inline previews
+;;   (delq 'company-preview-if-just-one-frontend company-frontends))
+;; (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+;; (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+
+; ctrl-g cancel
+;; (defun my/copilot-quit ()
+;;   "Run `copilot-clear-overlay' or `keyboard-quit'. If copilot is
+;; cleared, make sure the overlay doesn't come back too soon."
+;;   (interactive)
+;;   (condition-case err
+;;       (when copilot--overlay
+;;         (lexical-let ((pre-copilot-disable-predicates copilot-disable-predicates))
+;;           (setq copilot-disable-predicates (list (lambda () t)))
+;;           (copilot-clear-overlay)
+;;           (run-with-idle-timer
+;;            1.0
+;;            nil
+;;            (lambda ()
+;;              (setq copilot-disable-predicates pre-copilot-disable-predicates)))))
+;;     (error handler)))
+
+;; (advice-add 'keyboard-quit :before #'my/copilot-quit)
+
+;;
 ;; Language specific  packages
+;;
+
 ; Golang
 (use-package go-mode)
 

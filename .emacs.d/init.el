@@ -9,7 +9,6 @@
 ;; * shell with aliases
 ;; * terraform-ls https://github.com/hashicorp/terraform-ls
 ;; * RSS feeds: elfeed or NewsTicker
-;; * markdown https://cestlaz.github.io/post/using-emacs-59-markdown/ https://github.com/jrblevin/markdown-mode
 ;; * show leading whitespace only & discretely (https://www.emacswiki.org/emacs/WhiteSpace)
 
 ;; Nice to have
@@ -100,6 +99,7 @@
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
 
+(setq initial-major-mode 'text-mode)	 ; scratch buffers open in text mode
 (setq inhibit-startup-message t)			 ; don't display welcome message
 (fset 'yes-or-no-p 'y-or-n-p)					 ; simple yes or no questions
 (delete-selection-mode 1) ; when a region is selected, typing will overwrite it
