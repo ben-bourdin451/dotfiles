@@ -1,0 +1,229 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+    {
+        "key": "shift+alt+up",
+        "command": "editor.action.insertCursorAbove",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+cmd+up",
+        "command": "-editor.action.insertCursorAbove",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "shift+alt+down",
+        "command": "editor.action.insertCursorBelow",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+cmd+down",
+        "command": "-editor.action.insertCursorBelow",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+d",
+        "command": "editor.action.deleteLines",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "shift+cmd+k",
+        "command": "-editor.action.deleteLines",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "shift+cmd+d",
+        "command": "editor.action.copyLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "shift+alt+down",
+        "command": "-editor.action.copyLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+t",
+        "command": "workbench.action.quickOpen"
+    },
+    {
+        "key": "cmd+p",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "cmd+t",
+        "command": "workbench.action.quickOpenNavigateNextInFilePicker",
+        "when": "inFilesPicker && inQuickOpen"
+    },
+    {
+        "key": "cmd+p",
+        "command": "-workbench.action.quickOpenNavigateNextInFilePicker",
+        "when": "inFilesPicker && inQuickOpen"
+    },
+    {
+        "key": "cmd+l",
+        "command": "workbench.action.gotoLine"
+    },
+    // emacs compatible keybindings
+    {
+        "key": "ctrl+e",
+        "command": "cursorEnd",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+a",
+        "command": "cursorHome",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "cursorRight",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "cursorLeft",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+f",
+        "command": "cursorWordRight",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+b",
+        "command": "cursorWordLeft",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "cursorDown",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "cursorUp",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+n",
+        "command": "cursorDown",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+p",
+        "command": "cursorUp",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+v",
+        "command": "cursorPageDown",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+v",
+        "command": "cursorPageUp",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "deleteRight",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+u",
+        "command": "deleteAllLeft",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+w",
+        "command": "editor.action.clipboardCutAction",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+y",
+        "command": "editor.action.clipboardPasteAction",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+o",
+        "command": "editor.action.insertLineAfter",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+shift+o",
+        "command": "editor.action.insertLineBefore",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+d",
+        "command": "editor.action.deleteLines",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+g",
+        "command": "-workbench.action.gotoLine"
+    },
+    {
+        "key": "cmd+f",
+        "command": "actions.find",
+        "when": "editorFocus || editorIsOpen"
+    },
+    {
+        "key": "ctrl+/",
+        "command": "undo",
+    },
+    {
+        "key": "ctrl+shift+/",
+        "command": "redo",
+    },
+    {
+        "key": "ctrl+;",
+        "command": "editor.action.commentLine",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+;",
+        "command": "workbench.action.addComment",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+x ctrl+s",
+        "command": "saveAll",
+    },
+    {
+        "key": "ctrl+x ctrl+f",
+        "command": "workbench.action.files.openFileFolder"
+    },
+    {
+        "key": "ctrl+x ctrl+w",
+        "command": "workbench.action.closeWindow"
+    },
+    {
+        "key": "ctrl+=",
+        "command": "-editor.action.smartSelect.grow",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+d",
+        "command": "-editor.action.addSelectionToNextFindMatch",
+        "when": "editorFocus"
+    },
+    {
+        "key": "shift+alt+d",
+        "command": "-editor.action.addSelectionToPreviousFindMatch",
+        "when": "editorFocus"
+    },
+    {
+        "key": "alt+d",
+        "command": "editor.action.addSelectionToNextFindMatch",
+        "when": "editorFocus"
+    },
+    {
+        "key": "cmd+d",
+        "command": "-editor.action.addSelectionToNextFindMatch",
+        "when": "editorFocus"
+    },
+    {
+        "key": "shift+alt+d",
+        "command": "editor.action.addSelectionToPreviousFindMatch"
+    },
+]

@@ -1,0 +1,91 @@
+{
+  "workbench.colorTheme": "One Dark Pro",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.sideBar.location": "right",
+  "window.zoomLevel": 0,
+  "editor.multiCursorModifier": "alt",
+  "editor.formatOnPaste": true,
+  "editor.tabSize": 2,
+  "editor.fontSize": 13,
+  "editor.renderWhitespace": "boundary",
+  "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?_",
+  "editor.suggestSelection": "first",
+  "editor.insertSpaces": false,
+  "editor.inlineSuggest.enabled": true,
+  "editor.formatOnSave": true,
+  "extensions.ignoreRecommendations": true,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "files.associations": {
+    "*.conf": "plaintext"
+  },
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  // git
+  "git.confirmSync": false,
+  // eslint
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ],
+  // js
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // ts
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // vue
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  //json
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // go
+  "[go]": {
+    "editor.insertSpaces": false,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.suggest.snippetsPreventQuickSuggestions": false
+  },
+  "go.useCodeSnippetsOnFunctionSuggest": true,
+  "go.coverOnSingleTestFile": true,
+  "go.useLanguageServer": true,
+  "gopls": {
+    "build.buildFlags": [
+      "-tags=integration"
+    ]
+  },
+  "go.buildFlags": [
+    "-tags=integration"
+  ],
+  "go.editorContextMenuCommands": {
+    "removeTags": true,
+    "fillStruct": true,
+    "testFile": true,
+    "playground": false
+  },
+  "go.lintOnSave": "file",
+  "go.lintTool": "golint",
+  "go.languageServerExperimentalFeatures": {},
+  "go.toolsManagement.autoUpdate": true,
+  // copilot
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": false,
+    "markdown": false,
+  },
+}
