@@ -14,6 +14,7 @@
       "Bash(make:*)",
       "Bash(find:*)",
       "Bash(gh pr:*)",
+      "Bash(gh run:*)",
       "Bash(git add:*)",
       "Bash(git branch:*)",
       "Bash(git commit:*)",
@@ -47,7 +48,6 @@
       "Bash(terraform plan:*)",
       "Bash(wc:*)",
       "Read(~/.claude/**)",
-      "Read(~/workspace/superthread/**)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:npmjs.com)",
       "WebFetch(domain:pkg.go.dev)",
@@ -61,6 +61,6 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "/Users/ben/.claude/statusline-command.sh"
+    "command": "~/.claude/statusline-command.sh"
   }
 }

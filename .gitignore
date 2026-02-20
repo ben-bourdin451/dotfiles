@@ -9,6 +9,8 @@ target
 *.sublime-*
 .java-version
 .env
+tsconfig.tsbuildinfo
+
 
 # vscode
 .vscode
@@ -29,3 +31,6 @@ target
 *.temp_credentials
 *.terraform
 *.lock
+
+# claude code
+settings.local.json
