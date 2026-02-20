@@ -33,7 +33,7 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
+						 '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -66,18 +66,13 @@
 ;; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 ;; (load-theme 'ben t)
 
-;; Nyan cat
-(use-package nyan-mode
-	:init
-	(nyan-mode 1))
-
 ;; Backups
 (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
 (setq backup-by-copying-when-linked t)
 (setq delete-old-versions t
-  kept-new-versions 6
-  kept-old-versions 2
-  version-control t)
+			kept-new-versions 6
+			kept-old-versions 2
+			version-control t)
 
 ;; Copy pasta - mac os only
 ;; (when (eq system-type 'darwin)
@@ -114,7 +109,6 @@
 
 ;; set colours for whitespace-mode (and which things whitespace-cleanup should clean)
 (setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark trailing empty)))
-(setq-default tab-width 2)
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 
@@ -139,7 +133,7 @@
 (use-package undo-tree
   :init (global-undo-tree-mode)
 	:custom
-	 (undo-tree-history-directory-alist '(("" . "~/.emacs.d/backup-undo-tree"))))
+	(undo-tree-history-directory-alist '(("" . "~/.emacs.d/backup-undo-tree"))))
 
 ;; ability to edit a grep buffer and apply those changes
 (use-package wgrep)
@@ -178,6 +172,10 @@
 	(custom-set-variables
 	 '(zoom-window-mode-line-color "DarkGreen")))
 
+;; Nyan cat
+(use-package nyan-mode
+	:init
+	(nyan-mode 1))
 
 (use-package hydra
 	:ensure t)
@@ -206,13 +204,32 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(custom-safe-themes
-	 '("aa5dee47c85f12d166745ae56c778eb7833df3f6799c2b2d607d5b8da8f5f579" "9efb2d10bfb38fe7cd4586afb3e644d082cbcdb7435f3d1e8dd9413cbe5e61fc" "be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" "c83c095dd01cde64b631fb0fe5980587deec3834dc55144a6e78ff91ebc80b19" "82360e5f96244ce8cc6e765eeebe7788c2c5f3aeb96c1a765629c5c7937c0b5b" "811853cd3c1a1b653d5d247736d2b3527d84382b8104aa39d19606e3e4142b3f" default))
+	 '("aa5dee47c85f12d166745ae56c778eb7833df3f6799c2b2d607d5b8da8f5f579"
+		 "9efb2d10bfb38fe7cd4586afb3e644d082cbcdb7435f3d1e8dd9413cbe5e61fc"
+		 "be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499"
+		 "c83c095dd01cde64b631fb0fe5980587deec3834dc55144a6e78ff91ebc80b19"
+		 "82360e5f96244ce8cc6e765eeebe7788c2c5f3aeb96c1a765629c5c7937c0b5b"
+		 "811853cd3c1a1b653d5d247736d2b3527d84382b8104aa39d19606e3e4142b3f"
+		 default))
  '(lsp-auto-guess-root nil)
  '(lsp-enable-snippet nil)
  '(lsp-go-build-flags ["-tags=integration"])
  '(lsp-prefer-flymake nil t)
  '(package-selected-packages
-	 '(all-the-icons wgrep rust-mode flycheck-golangci-lint yaml-mode vue-mode zoom-window smart-tabs-mode dockerfile-mode typescript-mode groovy-mode nyan-mode gotest company-go lsp-ivy lsp-ui doom-themes terraform-mode dap-mode posframe sbt-mode scala-mode crux yasnippet-snippets yasnippet doom-modeline lsp-mode hcl-mode treemacs-magit dumb-jump undo-tree multiple-cursors git-timemachine expand-region magit git-gutter dired+ treemacs-icons-dired treemacs-projectile treemacs lua-mode ivy which-key go-mode flycheck company counsel swiper try use-package))
+	 '(all-the-icons apheleia bind-key claude-code-ide company-go counsel
+									 counsel-projectile crux dap-mode dockerfile-mode
+									 doom-modeline doom-themes dumb-jump expand-region
+									 flycheck-golangci-lint git-commit git-gutter
+									 git-timemachine gotest groovy-mode lsp-eslint
+									 lsp-ivy lsp-ui lua-mode multiple-cursors nyan-mode
+									 pkg-info rust-mode sbt-mode scala-mode
+									 smart-tabs-mode terraform-mode treemacs-icons-dired
+									 treemacs-magit treemacs-projectile try
+									 typescript-mode undo-tree vterm vue-mode wgrep
+									 which-key yaml-mode yasnippet-snippets zoom-window))
+ '(package-vc-selected-packages
+	 '((claude-code-ide :url
+											"https://github.com/manzaltu/claude-code-ide.el")))
  '(zoom-window-mode-line-color "DarkGreen"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

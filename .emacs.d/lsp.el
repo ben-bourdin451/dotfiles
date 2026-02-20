@@ -5,38 +5,29 @@
 
 ;;; Code:
 
-;; General save hooks
+;; General
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-
-;; editorconfig
-;; doesn't work
-;; (use-package editorconfig
-;;   :ensure t
-;;   :config
-;;   (editorconfig-mode 1))
 
 ;; LSP mode
 ;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode
 	:ensure t
-	:commands lsp
+	:commands (lsp lsp-deferred)
+	:init
+	(setq lsp-enable-on-type-formatting nil
+        lsp-enable-indentation nil          ; don't touch basic indent
+        lsp-format-on-save nil
+        ;; per language:
+        lsp-typescript-format-enable nil
+        lsp-eslint-format nil)
 	:custom
 	(lsp-auto-guess-root nil)
 	(lsp-enable-snippet nil)
 	(lsp-prefer-flymake nil) ; use flycheck instead of flymake
 	:bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
 	:hook (
-				 ((go-mode rust-mode typescript-mode js-mode) . lsp)
+				 ((js-mode js-ts-mode typescript-mode typescript-ts-mode tsx-ts-mode json-mode json-ts-mode vue-mode go-mode rust-mode) . lsp-deferred)
 				 (lsp-mode . lsp-enable-which-key-integration)))
-(global-set-key (kbd "C-S-o") 'lsp-organize-imports)
-(global-set-key (kbd "M-RET") 'lsp-ui-sideline-apply-code-actions)
-
-;; (advice-add 'lsp :before (lambda (&rest _args) (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
-
-(defun lsp-save-actions ()
-	"LSP save actions."
-	(lsp-format-buffer)
-	(lsp-organize-imports))
 
 (use-package lsp-ui
 	:after lsp-mode
@@ -108,155 +99,30 @@
 (setq read-process-output-max (* 1024 1024))
 
 ;;
-;; Github copilot
-;;
-
-;; dependencies
-;; (require 'cl)
-;; (let ((pkg-list '(use-package
-;; 		          s
-;; 		          dash
-;; 		          editorconfig
-;;                   company)))
-;;   (package-initialize)
-;;   (when-let ((to-install (map-filter (lambda (pkg _) (not (package-installed-p pkg))) pkg-list)))
-;;     (package-refresh-contents)
-;;     (mapc (lambda (pkg) (package-install pkg)) pkg-list)))
-
-;; (use-package copilot
-;;   :load-path (lambda () (expand-file-name "copilot.el" user-emacs-directory))
-;;   ;; don't show in mode line
-;;   :diminish
-;; 	:ensure t)
-
-;; configure completion
-;; (add-hook 'prog-mode-hook 'copilot-mode)
-
-;; (defvar my/copilot-modes '(go-mode
-;;                               js-mode
-;; 															ts-mode
-;;                               vue-mode
-;; 															dockerfile-mode
-;; 															hcl-mode
-;; 															yaml-mode
-;; 															ruby-mode
-;; 															lua-mode
-;; 															terraform-mode
-;; 															)
-;;   "Modes in which copilot is enabled.")
-;; (defun my/copilot-enable-predicate ()
-;;   "When copilot should automatically show completions."
-;;   (or (member major-mode my/copilot-modes)
-;;       (company--active-p)))
-;; (add-to-list 'copilot-enable-predicates #'my/copilot-enable-predicate)
-
-;; copilot bindings
-;; (defun my/copilot-complete-or-accept ()
-;;   "Command that either triggers a completion or accepts one if one
-;; is available"
-;;   (interactive)
-;;   (if (copilot--overlay-visible)
-;;       (progn
-;;         (copilot-accept-completion)
-;;         (open-line 1)
-;;         (next-line))
-;;     (copilot-complete)))
-;; (define-key copilot-mode-map (kbd "M-C-<next>") #'copilot-next-completion)
-;; (define-key copilot-mode-map (kbd "M-C-<prior>") #'copilot-previous-completion)
-;; (define-key copilot-mode-map (kbd "M-C-<right>") #'copilot-accept-completion-by-word)
-;; (define-key copilot-mode-map (kbd "M-C-<down>") #'copilot-accept-completion-by-line)
-;; (define-key global-map (kbd "M-C-<return>") #'my/copilot-complete-or-accept)
-
-; tab
-;; (defun my/copilot-tab ()
-;;   "Tab command that will complete with copilot if a completion is
-;; available. Otherwise will try company, yasnippet or normal
-;; tab-indent."
-;;   (interactive)
-;;   (or (copilot-accept-completion)
-;;       (company-yasnippet-or-completion)
-;;       (indent-for-tab-command)))
-;; (define-key global-map (kbd "<tab>") #'my/copilot-tab)
-
-;; configure completion accept
-;; (with-eval-after-load 'company
-;;   ;; disable inline previews
-;;   (delq 'company-preview-if-just-one-frontend company-frontends))
-;; (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-;; (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-
-; ctrl-g cancel
-;; (defun my/copilot-quit ()
-;;   "Run `copilot-clear-overlay' or `keyboard-quit'. If copilot is
-;; cleared, make sure the overlay doesn't come back too soon."
-;;   (interactive)
-;;   (condition-case err
-;;       (when copilot--overlay
-;;         (lexical-let ((pre-copilot-disable-predicates copilot-disable-predicates))
-;;           (setq copilot-disable-predicates (list (lambda () t)))
-;;           (copilot-clear-overlay)
-;;           (run-with-idle-timer
-;;            1.0
-;;            nil
-;;            (lambda ()
-;;              (setq copilot-disable-predicates pre-copilot-disable-predicates)))))
-;;     (error handler)))
-
-;; (advice-add 'keyboard-quit :before #'my/copilot-quit)
-
-;;
 ;; Language specific  packages
 ;;
 
-; Golang
+;; Golang
 (use-package go-mode)
-
-;; TODO: chain linters correctly
-;; https://github.com/flycheck/flycheck/issues/1762
-;; https://github.com/weijiangan/flycheck-golangci-lint/issues/8
-;; (use-package flycheck-golangci-lint
-;;   :ensure t
-;;   :hook (go-mode . flycheck-golangci-lint-setup)
-;; 	:config
-;; 	;; (setq flycheck-golangci-lint-config "~/workspace/gists/golangci.yml")
-;; 	(setq flycheck-golangci-lint-fast t))
-
 (use-package gotest)
-;; (define-key go-mode-map (kbd "C-c t") 'go-test-current-test)
-
-(use-package company-go
-	:after company)
-(add-hook 'go-mode-hook (lambda ()
-													(set (make-local-variable 'company-backends)
-															 '((company-go company-yasnippet)))
-													(company-mode)))
-(add-hook 'go-mode-hook
-					(lambda () (add-hook 'before-save-hook #'lsp-save-actions t 'local)))
 
 ;; Rust
 (use-package rust-mode)
-
-(add-hook 'before-save-hook (lambda () (when (eq 'rust-mode major-mode)
-                                           (lsp-format-buffer))))
 
 ;; JS
 ;; js-mode is built-in
 (use-package vue-mode
   :mode "\\.vue\\'"
-  :config
-  (add-hook 'vue-mode-hook #'lsp))
-(add-hook 'before-save-hook (lambda () (when (eq 'js-mode major-mode)
-																				 (lsp-format-buffer))))
+  :hook (vue-mode . lsp-deferred))
+
 ;; json
 ;; highlighting support for editing json files is provided by js-mode
 
 ;; ts
-(use-package typescript-mode)
-(add-hook 'before-save-hook (lambda () (when (eq 'typescript-mode major-mode)
-                                           (lsp-format-buffer))))
+(use-package typescript-mode :defer t)
 
 ;; yaml
-(use-package yaml-mode)
+(use-package yaml-mode :mode "\\.ya?ml\\'")
 
 ;; Lua
 (use-package lua-mode
@@ -264,13 +130,6 @@
 
 ;; Docker
 (use-package dockerfile-mode)
-
-;; Groovy & jenkins
-(use-package groovy-mode
-	:config
-	(setq groovy-indent-offset 2)
-	(load-file-safe "~/.emacs.d/jenkins-mode.el"))
-
 
 ;; HCL
 (use-package hcl-mode)
@@ -284,9 +143,74 @@
 ;;                   :server-id 'terraform-ls))
 ;; (add-hook 'terraform-mode-hook #'lsp)
 
-;; Enable scala-mode for highlighting, indentation and motion commands
-(use-package scala-mode
-  :mode "\\.s\\(cala\\|bt\\)$")
+;;
+;; Formatting & linting
+;;
+
+;; defaults
+(setq-default js-indent-level 2
+              typescript-indent-level 2
+              tab-width 2)
+(global-set-key (kbd "C-c C-f") #'lsp-format-buffer)
+(global-set-key (kbd "C-S-o") 'lsp-organize-imports)
+(global-set-key (kbd "M-RET") 'lsp-ui-sideline-apply-code-actions)
+
+
+;; Apheleia + Prettier (async, respects .editorconfig)
+(use-package apheleia
+  :ensure t
+  :config
+  ;; Ensure Prettier gets filepath to pick correct parser & project config
+  (setf (alist-get 'prettier apheleia-formatters)
+        '("prettier" "--stdin-filepath" filepath))
+  ;; Map modes -> Prettier
+  (dolist (pair '((js-mode . prettier)
+                  (js-ts-mode . prettier)
+                  (typescript-mode . prettier)
+                  (typescript-ts-mode . prettier)
+                  (tsx-ts-mode . prettier)
+                  (js-json-mode . prettier)
+                  (js-json-ts-mode . prettier)
+                  (json-mode . prettier)
+                  (json-ts-mode . prettier)
+                  (vue-mode . prettier)
+                  (yaml-mode . prettier)))
+    (setf (alist-get (car pair) apheleia-mode-alist) (cdr pair)))
+  (apheleia-global-mode +1))
+
+;; format using apheleia & prettier for JS/TS/JSON/Vue
+(dolist (hook '(js-mode-hook js-ts-mode-hook
+														 typescript-mode-hook typescript-ts-mode-hook tsx-ts-mode-hook
+														 json-mode-hook json-ts-mode-hook
+														 vue-mode-hook yaml-mode-hook))
+  (add-hook hook
+            (lambda ()
+							(apheleia-mode +1)
+              (add-hook 'before-save-hook #'apheleia-format-buffer nil t)
+              (local-set-key (kbd "C-c C-f") #'apheleia-format-buffer))))
+
+;; Go & Rust: explicit save hooks for LSP formatting (and imports for Go)
+(dolist (hook '(go-mode-hook go-ts-mode-hook rust-mode-hook rust-ts-mode-hook))
+  (add-hook hook
+            (lambda ()
+              ;; Make LSP the only formatter here
+              (setq-local lsp-format-on-save t)
+              (when (boundp 'apheleia-mode) (apheleia-mode -1))
+
+              ;; Install buffer-local save hooks explicitly
+              ;; (the 't at the end makes them buffer-local)
+              (add-hook 'before-save-hook #'lsp-format-buffer nil t)
+
+              ;; Go-only: organize imports on save via gopls
+              (when (derived-mode-p 'go-mode 'go-ts-mode)
+                (add-hook 'before-save-hook #'lsp-organize-imports nil t))
+
+              ;; Avoid double-format from rust-mode’s rustfmt (if present)
+              (when (boundp 'rust-format-on-save)
+                (setq-local rust-format-on-save nil)))))
+;;
+;; sbt
+;;
 
 ;; Enable sbt mode for executing sbt commands
 (use-package sbt-mode
@@ -298,7 +222,7 @@
    'minibuffer-complete-word
    'self-insert-command
    minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false")))
+  ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+  (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;;; lsp.el ends here

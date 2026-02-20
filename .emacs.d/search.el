@@ -13,9 +13,12 @@
 
 (use-package counsel
   :ensure t
+  :after project
   :bind (("M-y" . counsel-yank-pop)
 	 :map ivy-minibuffer-map
-	 ("M-y" . ivy-next-line)))
+	 ("M-y" . ivy-next-line)
+	 :map project-prefix-map
+	 ("g" . counsel-git)))
 
 (use-package swiper
   :ensure t
@@ -63,5 +66,22 @@
   :config
   (setq dumb-jump-selector 'ivy)
   (setq dumb-jump-prefer-searcher 'rg))
+
+;; project navigation
+;; https://github.com/bbatsov/projectile
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode 1)
+  :custom
+  (projectile-project-search-path '("~/code/")))
+
+(use-package counsel-projectile
+  :ensure t
+  :after (projectile counsel)
+  :config
+  (counsel-projectile-mode 1)
+  :bind (:map project-prefix-map
+	 ("f" . counsel-projectile-find-file)))
 
 ;;; search.el ends here

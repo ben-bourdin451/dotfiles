@@ -12,6 +12,7 @@
   :config
   (progn
     (setq treemacs-position 'right
+					treemacs-width 45
           treemacs-show-cursor nil)
 
 
