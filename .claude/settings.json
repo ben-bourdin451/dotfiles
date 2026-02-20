@@ -13,6 +13,7 @@
       "Bash(npx cdk synth:*)",
       "Bash(make:*)",
       "Bash(find:*)",
+      "Bash(gh api:*)",
       "Bash(gh pr:*)",
       "Bash(gh run:*)",
       "Bash(git add:*)",

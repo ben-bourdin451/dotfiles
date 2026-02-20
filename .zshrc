@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -15,16 +15,13 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 plugins=(git aws npm nvm docker docker-compose)
 
-autoload -Uz compinit
-compinit
-
 source $ZSH/oh-my-zsh.sh
 alias szsh='source ~/.zshrc'
 export LANG=en_GB.UTF-8
 source $HOME/env.sh
 
 # PATH
-export PATH=$PATH:/usr/local/bin:$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export PATH=$PATH:/usr/local/bin:$HOME/.local/bin
 export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin #core utils
 
 export CMAKE_OSX_ARCHITECTURES=arm64
@@ -32,11 +29,7 @@ export CMAKE_OSX_ARCHITECTURES=arm64
 ###############
 # Emacs
 ###############
-if [[ -n $SSH_CONNECTION ]]; then
-		export EDITOR="emacs"
-else
-		export EDITOR="emacs"
-fi
+export EDITOR="emacs"
 
 # OS specific
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -88,24 +81,23 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl/lib/pkgconfig"
 #########
 # pyenv
 export PYENV_ROOT=/usr/local/var/pyenv
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-export PATH="$(brew --prefix python)/libexec/bin:$PATH"
+if command -v pyenv &>/dev/null; then eval "$(pyenv init -)"; fi
+export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
 
 #########
 # JS
 #########
-# nvm
+# nvm (lazy-loaded for faster shell startup)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # load nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # load nvm bash_completion
-
-
-#########
-# Java
-#########
-# jenv
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+nvm() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    nvm "$@"
+}
+node() { nvm; node "$@"; }
+npm() { nvm; npm "$@"; }
+npx() { nvm; npx "$@"; }
 
 
 #########
@@ -130,7 +122,7 @@ export PATH=$PATH:$GOBIN
 export AWS_DATA_PATH="$HOME/tools/aws-cli"
 export AWS_PAGER=""
 alias awsmfa="$HOME/aws_mfa.sh"
-alias awssso="aws sso login --sso-session $1"
+awssso() { aws sso login --sso-session "$1"; }
 alias cdk="npx aws-cdk --no-change-set"
 
 #########
@@ -158,10 +150,11 @@ alias tf="terraform"
 alias tflog='tail -f $TF_LOG_PATH'
 
 tf-set-creds() {
-    creds=$(aws sts assume-role --role-arn $TF_ROLE --role-session-name 'ben-tf' --duration-seconds 3600)
-    export AWS_ACCESS_KEY_ID=$(echo $creds | jq '.Credentials.AccessKeyId' | sed 's/"//g')
-    export AWS_SECRET_ACCESS_KEY=$(echo $creds | jq '.Credentials.SecretAccessKey' | sed 's/"//g')
-    export AWS_SESSION_TOKEN=$(echo $creds | jq '.Credentials.SessionToken' | sed 's/"//g')
+    local creds
+    creds=$(aws sts assume-role --role-arn "$TF_ROLE" --role-session-name 'ben-tf' --duration-seconds 3600)
+    export AWS_ACCESS_KEY_ID=$(echo "$creds" | jq -r '.Credentials.AccessKeyId')
+    export AWS_SECRET_ACCESS_KEY=$(echo "$creds" | jq -r '.Credentials.SecretAccessKey')
+    export AWS_SESSION_TOKEN=$(echo "$creds" | jq -r '.Credentials.SessionToken')
 
     mv ~/.aws/credentials ~/.aws/credentials.prev
 }
@@ -218,27 +211,27 @@ pw() {
     # LC_ALL=C tr -dc 'A-Za-z0-9!#$%&()*+-:;<=>?@[\]^_{|}~' </dev/random | head -c ${1:-20} | pbcopy
 }
 pwtrunc() {
-    pw=$(pbpaste)
-    if [ -z $pw ]; then
+    local pw=$(pbpaste)
+    if [[ -z "$pw" ]]; then
         echo "Nothing in clipboard"
         return
     fi
 
-    if [ -z $1 ]; then
+    if [[ -z "$1" ]]; then
         read "1?1st: "
     fi
 
-    if [ -z $2 ]; then
+    if [[ -z "$2" ]]; then
         read "2?2nd: "
     fi
 
-    if [ -z $3 ]; then
+    if [[ -z "$3" ]]; then
         read "3?3rd: "
     fi
 
     echo ${pw:$(($1-1)):1}${pw:$(($2-1)):1}${pw:$(($3-1)):1}
 }
-eval "$(op completion zsh)"; compdef _op op
+command -v op &>/dev/null && eval "$(op completion zsh)" && compdef _op op
 
 #########
 # Docker
@@ -268,14 +261,14 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 # Custom functions
 now() { date +%s }
-tping() { ping "$@" | perl -nle "print scalar(localtime), " ", $_"; } # ping with timestamp
+tping() { ping "$@" | perl -nle "print scalar(localtime), \" \", \$_"; } # ping with timestamp
 unescape() { pbpaste | sed 's/\\"/"/g' | sed 's/\\\\"/"/g' | sed 's/"{/{/g' | sed 's/}"/}/g' | pbcopy }
 jqformat() { pbpaste | jq | pbcopy }
 
 loadtest() {
-		DURATION=60 # seconds
-		TPS=20 # number of requests per second
-		end=$((SECONDS+$DURATION))
+		local DURATION=60 # seconds
+		local TPS=20 # number of requests per second
+		local end=$((SECONDS+$DURATION))
 		#start load
 		while [ $SECONDS -lt $end ];
 		do
@@ -290,8 +283,9 @@ loadtest() {
 }
 
 healthcheck() {
-		DURATION=300 # seconds
-		end=$((SECONDS+$DURATION))
+		local DURATION=300 # seconds
+		local TPS=${2:-1} # requests per second, default 1
+		local end=$((SECONDS+$DURATION))
 
 		while [ $SECONDS -lt $end ];
 		do
