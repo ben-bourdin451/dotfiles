@@ -13,7 +13,10 @@ HYPHEN_INSENSITIVE="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(git aws npm nvm pip docker docker-compose kubectl rvm gem)
+plugins=(git aws npm nvm docker docker-compose)
+
+autoload -Uz compinit
+compinit
 
 source $ZSH/oh-my-zsh.sh
 alias szsh='source ~/.zshrc'
@@ -21,10 +24,14 @@ export LANG=en_GB.UTF-8
 source $HOME/env.sh
 
 # PATH
-export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+export PATH=$PATH:/usr/local/bin:$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin #core utils
 
+export CMAKE_OSX_ARCHITECTURES=arm64
+
+###############
 # Emacs
+###############
 if [[ -n $SSH_CONNECTION ]]; then
 		export EDITOR="emacs"
 else
@@ -63,31 +70,30 @@ export FZF_DEFAULT_COMMAND='fd --type f -E .git -E .node_modules'
 alias findf="fzf --preview 'bat --style=numbers --color=always {} | head -500'"
 
 # man
-export MANPATH=$MANPATH:/usr/local/opt/coreutils/libexec/gnuman
+export MANPATH=$MANPATH:/opt/homebrew/opt/coreutils/libexec/gnuman
 if [[ "$OSTYPE" == "darwin"* ]]; then
 		alias man="batman" # batman is the man
 fi
 
 # openssl
-export PATH=$PATH:/usr/local/opt/openssl@1.1/bin
-export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+export LDFLAGS="-L/opt/homebrew/opt/openssl/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/openssl/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl/lib/pkgconfig"
 
 #########
 # Python - sucks
+#
+# used by:
+# - powerline
 #########
-export PATH=$PATH:$HOME/.local/bin
-
 # pyenv
 export PYENV_ROOT=/usr/local/var/pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+export PATH="$(brew --prefix python)/libexec/bin:$PATH"
 
 #########
 # JS
 #########
-export PATH=$PATH:$HOME/.nvm/versions/node/v13.13.0/bin
-
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # load nvm
@@ -122,8 +128,24 @@ export PATH=$PATH:$GOBIN
 # AWS
 #########
 export AWS_DATA_PATH="$HOME/tools/aws-cli"
+export AWS_PAGER=""
 alias awsmfa="$HOME/aws_mfa.sh"
-alias cdk="npx aws-cdk"
+alias awssso="aws sso login --sso-session $1"
+alias cdk="npx aws-cdk --no-change-set"
+
+#########
+# AI
+#########
+
+# Claude code
+export CLAUDE_CODE_USE_BEDROCK=1
+export ANTHROPIC_MODEL='eu.anthropic.claude-opus-4-6-v1'
+export ANTHROPIC_SMALL_FAST_MODEL='eu.anthropic.claude-haiku-4-5-20251001-v1:0'
+
+# list claude code relevant vars
+ccl() {
+		echo "profile=$AWS_PROFILE region=$AWS_REGION model=$ANTHROPIC_MODEL small=$ANTHROPIC_SMALL_FAST_MODEL"
+}
 
 #########
 # Terraform
@@ -216,7 +238,7 @@ pwtrunc() {
 
     echo ${pw:$(($1-1)):1}${pw:$(($2-1)):1}${pw:$(($3-1)):1}
 }
-
+eval "$(op completion zsh)"; compdef _op op
 
 #########
 # Docker
@@ -248,6 +270,7 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 now() { date +%s }
 tping() { ping "$@" | perl -nle "print scalar(localtime), " ", $_"; } # ping with timestamp
 unescape() { pbpaste | sed 's/\\"/"/g' | sed 's/\\\\"/"/g' | sed 's/"{/{/g' | sed 's/}"/}/g' | pbcopy }
+jqformat() { pbpaste | jq | pbcopy }
 
 loadtest() {
 		DURATION=60 # seconds
@@ -283,4 +306,11 @@ healthcheck() {
 }
 
 alias rmlogs='find logs -type f -mtime +1 -exec rm {} \;'
-alias rmsublworkspaces='find $HOME/workspace -type f -name "*.sublime-workspace" -exec rm {} \;'
+
+# pnpm
+export PNPM_HOME="/Users/ben/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
