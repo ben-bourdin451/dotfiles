@@ -7,7 +7,6 @@ Check what agents & skills are available for use before starting a task.
 ## Golden rules
 
 - **Git branch naming convention**: never use `/` in the branch names, use a mix of `-` and `_` if you really want to separate the string, e.g. feat_this-is-a-feature-name. max 70 characters, truncate if necessary
-- **Git -C flag**: try not to use -C or other flags before the git command itself unless absolutely necessary
 
 ## Dotfiles
 
