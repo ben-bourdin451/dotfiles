@@ -87,18 +87,12 @@ export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
 #########
 # JS
 #########
-# nvm (lazy-loaded for faster shell startup)
+# nvm
 export NVM_DIR="$HOME/.nvm"
-nvm() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-    nvm "$@"
-}
-node() { nvm; node "$@"; }
-npm() { nvm; npm "$@"; }
-npx() { nvm; npx "$@"; }
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=1
 
 #########
 # Go
