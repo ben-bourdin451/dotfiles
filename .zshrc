@@ -116,6 +116,7 @@ export PATH=$PATH:$GOBIN
 export AWS_DATA_PATH="$HOME/tools/aws-cli"
 export AWS_PAGER=""
 alias awsmfa="$HOME/aws_mfa.sh"
+unalias awssso 2>/dev/null
 awssso() { aws sso login --sso-session "$1"; }
 alias cdk="npx aws-cdk --no-change-set"
 
@@ -181,6 +182,24 @@ _cdktf_yargs_completions()
 compdef _cdktf_yargs_completions cdktf
 ###-end-cdktf-completions-###
 
+
+#########
+# GitHub App auth for gh CLI
+#########
+gh() {
+    if [[ -n "$GH_PERSONAL" ]]; then
+        command gh "$@"
+        return
+    fi
+    local token
+    token=$("$HOME/.local/bin/gh-app-token" 2>/dev/null)
+    if [[ -n "$token" ]]; then
+        GH_TOKEN="$token" command gh "$@"
+    else
+        command gh "$@"
+    fi
+}
+alias ghme='GH_PERSONAL=1 gh'
 
 #########
 # Git
