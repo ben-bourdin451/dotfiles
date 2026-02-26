@@ -34,3 +34,4 @@ tsconfig.tsbuildinfo
 
 # claude code
 settings.local.json
+.claude/worktrees/
