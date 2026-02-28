@@ -109,6 +109,13 @@ export PATH=$PATH:$GOBIN
 # export PATH="$PATH:$HOME/.rvm/bin"
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+#########
+# Flutter & Dart
+#########
+export PATH=$PATH:/usr/local/flutter/bin
+export PATH=$PATH:/usr/local/android_sdk/cmdline-tools/bin
+export ANDROID_HOME=/usr/local/android_sdk
+export FLUTTER_GIT_URL=git@github.com:/flutter/flutter.git
 
 #########
 # AWS
