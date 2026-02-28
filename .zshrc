@@ -29,7 +29,7 @@ export CMAKE_OSX_ARCHITECTURES=arm64
 ###############
 # Emacs
 ###############
-export EDITOR="emacs"
+export EDITOR="emacsclient -t"
 
 # OS specific
 if [[ "$OSTYPE" == "darwin"* ]]; then
