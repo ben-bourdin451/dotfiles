@@ -128,20 +128,6 @@ awssso() { aws sso login --sso-session "$1"; }
 alias cdk="npx aws-cdk --no-change-set"
 
 #########
-# AI
-#########
-
-# Claude code
-export CLAUDE_CODE_USE_BEDROCK=1
-export ANTHROPIC_MODEL='eu.anthropic.claude-opus-4-6-v1'
-export ANTHROPIC_SMALL_FAST_MODEL='eu.anthropic.claude-haiku-4-5-20251001-v1:0'
-
-# list claude code relevant vars
-ccl() {
-		echo "profile=$AWS_PROFILE region=$AWS_REGION model=$ANTHROPIC_MODEL small=$ANTHROPIC_SMALL_FAST_MODEL"
-}
-
-#########
 # Terraform
 #########
 # export TF_LOG="TRACE"
