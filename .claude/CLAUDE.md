@@ -4,9 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code).
 
 Check what agents & skills are available for use before starting a task.
 
-## Golden rules
+## Generic rules
 
-- **Git branch naming convention**: never use `/` in the branch names, use a mix of `-` and `_` if you really want to separate the string, e.g. feat_this-is-a-feature-name. max 70 characters, truncate if necessary
+### git
+
+- Use -C to run git commands in different directories
+- **branch naming**: never use `/` in the branch names, use `-` or `_` instead. max 70 characters.
+
+### github
+
+- **PRs**: add my user (ben-bourdin451) as a reviewer to all PRs you create. enable auto-merge.
 
 ## Dotfiles
 
