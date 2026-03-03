@@ -123,6 +123,9 @@
 
 ;; yaml
 (use-package yaml-mode :mode "\\.ya?ml\\'")
+(with-eval-after-load 'lsp-mode
+  (setq lsp-yaml-single-quote t
+        lsp-yaml-schema-store-enable nil))
 
 ;; Lua
 (use-package lua-mode
@@ -173,8 +176,7 @@
                   (js-json-ts-mode . prettier)
                   (json-mode . prettier)
                   (json-ts-mode . prettier)
-                  (vue-mode . prettier)
-                  (yaml-mode . prettier)))
+                  (vue-mode . prettier)))
     (setf (alist-get (car pair) apheleia-mode-alist) (cdr pair)))
   (apheleia-global-mode +1))
 
@@ -182,7 +184,7 @@
 (dolist (hook '(js-mode-hook js-ts-mode-hook
 														 typescript-mode-hook typescript-ts-mode-hook tsx-ts-mode-hook
 														 json-mode-hook json-ts-mode-hook
-														 vue-mode-hook yaml-mode-hook))
+														 vue-mode-hook))
   (add-hook hook
             (lambda ()
 							(apheleia-mode +1)
