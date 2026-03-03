@@ -28,9 +28,7 @@ tsconfig.tsbuildinfo
 # Terraform
 *.tfstate
 *.tfstate.*
-*.temp_credentials
-*.terraform
-*.lock
+.terraform/
 
 # claude code
 settings.local.json
