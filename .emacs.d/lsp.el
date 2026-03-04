@@ -183,11 +183,7 @@
 														 typescript-mode-hook typescript-ts-mode-hook tsx-ts-mode-hook
 														 json-mode-hook json-ts-mode-hook
 														 vue-mode-hook yaml-mode-hook))
-  (add-hook hook
-            (lambda ()
-							(apheleia-mode +1)
-              (add-hook 'before-save-hook #'apheleia-format-buffer nil t)
-              (local-set-key (kbd "C-c C-f") #'apheleia-format-buffer))))
+  (add-hook hook (lambda () (apheleia-mode +1))))
 
 ;; Go & Rust: explicit save hooks for LSP formatting (and imports for Go)
 (dolist (hook '(go-mode-hook go-ts-mode-hook rust-mode-hook rust-ts-mode-hook))
