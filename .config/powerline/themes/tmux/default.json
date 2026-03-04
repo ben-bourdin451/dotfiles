@@ -1,0 +1,21 @@
+{
+  "segments": {
+    "left": [
+      {
+        "function": "powerline.segments.common.vcs.branch"
+      }
+    ],
+    "right": [
+			{
+				"function": "powerline.segments.common.time.date",
+				"args": { "format": "%B %d" },
+        "priority": 50
+      },
+      {
+        "function": "powerline.segments.common.time.date",
+        "args": { "format": "%H:%M" },
+        "priority": 40
+      }
+    ]
+  }
+}
