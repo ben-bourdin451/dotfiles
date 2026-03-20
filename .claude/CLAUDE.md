@@ -10,10 +10,11 @@ Check what agents & skills are available for use before starting a task.
 
 - Use -C to run git commands in different directories
 - **branch naming**: never use `/` in the branch names, use `-` or `_` instead. max 70 characters.
+- **Never discard uncommitted work**: before running `git checkout -- .`, `git restore .`, `git clean -fd`, or `git stash` in any repo, first check `git status` and `git diff --stat`. If there are uncommitted changes, ask the user before discarding them. Use targeted `git checkout -- <file>` for specific files instead of blanket restores.
 
 ### github
 
-- **PRs**: add my user (ben-bourdin451) as a reviewer to all PRs you create. enable auto-merge.
+- **PRs**: add my user (ben-bourdin451) as a reviewer to all PRs you create
 
 ## Dotfiles
 

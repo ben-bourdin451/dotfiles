@@ -8,9 +8,10 @@
       "Bash(npm run format:*)",
       "Bash(npm run lint:*)",
       "Bash(npm view:*)",
-      "Bash(npx tsc -b)",
       "Bash(npx cdk diff:*)",
       "Bash(npx cdk synth:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vitest:*)",
       "Bash(make:*)",
       "Bash(find:*)",
       "Bash(gh:*)",
@@ -22,7 +23,7 @@
       "Bash(rg:*)",
       "Bash(pnpm install)",
       "Bash(pnpm test:*)",
-      "Bash(pnpm -w run lint)",
+      "Bash(pnpm -w run lint:*)",
       "Bash(sed:*)",
       "Bash(terraform fmt:*)",
       "Bash(terraform validate:*)",
@@ -31,6 +32,8 @@
       "Bash(terraform plan:*)",
       "Bash(wc:*)",
       "Read(~/.claude/**)",
+      "Read(~/.zshrc)",
+      "Read(~/workspace/**)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:npmjs.com)",
       "WebFetch(domain:pkg.go.dev)",
@@ -38,7 +41,6 @@
     ],
     "deny": []
   },
-  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
@@ -46,5 +48,7 @@
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true
-  }
+  },
+  "effortLevel": "medium",
+  "skipDangerousModePermissionPrompt": true
 }
