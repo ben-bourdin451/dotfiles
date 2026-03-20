@@ -15,23 +15,24 @@
   cmd = emacsclient --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
 [alias]
 	b = branch -v
-	s = status
-	sa = stash apply
-	sl = stash list
-	ss = stash push
-	sc = stash push -um 'current'
-	sp = stash pop
-	unstage = reset HEAD
-	l = log --pretty=format:\"%C(yellow)%h %C(red)%an %C(blue)%ar %C(reset)%s\"
-	lp = log --pretty=format:\"%C(yellow)%h %C(red)%an %C(blue)%ad %C(reset)%s\"
-	yesterday = log --pretty=format:\"%C(yellow)%h %C(red)%an %C(blue)%ar %C(reset)%s\" --since=yesterday
-	last = log -1
-	co = checkout
 	ci = commit
-	p = pull
+	clear = git reset --hard HEAD
+	co = checkout
 	f = fetch origin
 	g = grep -in
-	clear = git reset --hard HEAD
+	l = log --pretty=format:\"%C(yellow)%h %C(red)%an %C(blue)%ar %C(reset)%s\"
+	last = log -1
+	lp = log --pretty=format:\"%C(yellow)%h %C(red)%an %C(blue)%ad %C(reset)%s\"
+	p = pull
+	s = status
+	sa = stash apply
+	sc = stash push -um 'current'
+	sl = stash list
+	sp = stash pop
+	ss = stash push
+	unstage = reset HEAD
+	wt = worktree
+	yesterday = log --pretty=format:\"%C(yellow)%h %C(red)%an %C(blue)%ar %C(reset)%s\" --since=yesterday
 [remote "origin"]
 	prune = true
 [pull]
