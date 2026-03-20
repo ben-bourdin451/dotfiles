@@ -49,4 +49,11 @@
     (when file
       (find-file file))))
 (global-set-key (kbd "C-c s") 'couns-git)
+
+;; Preserve M-n/M-p global bindings in modes that override them
+(defvar markdown-mode-map)
+(with-eval-after-load 'markdown-mode
+  (define-key markdown-mode-map (kbd "M-n") nil)
+  (define-key markdown-mode-map (kbd "M-p") nil))
+
 ;;; keymap.el ends here
