@@ -202,7 +202,19 @@ alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias rmorig='find . -type f -name "*.orig" -exec rm {} \;'
 
 gitgone() {
-    git fetch -p && for branch in $(git branch -v | fgrep 'gone]'| awk '{$1=$1;print}' | perl -n -l -e '/^([a-zA-Z\/0-9-_]+)/ && print $1'); do git branch -D $branch; done
+    git fetch -p && for branch in $(git branch -v | fgrep 'gone]' | awk '{print $1}'); do git branch -D $branch; done
+}
+
+wtgone() {
+    git fetch -p
+    for branch in $(git branch -v | fgrep 'gone]' | awk '{print $1}'); do
+        wt=$(git worktree list | fgrep "[$branch]" | awk '{print $1}')
+        if [ -n "$wt" ]; then
+            git worktree remove --force "$wt"
+            git worktree prune
+        fi
+        git branch -D "$branch"
+    done
 }
 
 gitpurge() {
