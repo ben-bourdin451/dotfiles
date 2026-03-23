@@ -18,13 +18,14 @@ plugins=(git aws npm nvm docker docker-compose)
 source $ZSH/oh-my-zsh.sh
 alias szsh='source ~/.zshrc'
 export LANG=en_GB.UTF-8
-source $HOME/env.sh
+[ -f "$HOME/env.sh" ] && source "$HOME/env.sh"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # PATH
 export PATH=$PATH:/usr/local/bin:$HOME/.local/bin
-export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin #core utils
+[[ "$OSTYPE" == "darwin"* ]] && export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin #core utils
 
-export CMAKE_OSX_ARCHITECTURES=arm64
+[[ "$OSTYPE" == "darwin"* ]] && export CMAKE_OSX_ARCHITECTURES=arm64
 
 ###############
 # Emacs
@@ -42,11 +43,18 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 		alias emacs="emacsclient"
 
-		alias get='sudo apt-get install -y'
-    alias purge='sudo apt-get purge -y'
-    alias fd=fdfind
-    alias pbcopy='copyq add -'
-    alias pbpaste='copyq read 0'
+		# Package manager aliases
+		if command -v dnf &>/dev/null; then
+			alias get='sudo dnf install -y'
+			alias purge='sudo dnf remove -y'
+		elif command -v apt-get &>/dev/null; then
+			alias get='sudo apt-get install -y'
+			alias purge='sudo apt-get purge -y'
+		fi
+		# fd is fdfind on Debian/Ubuntu only
+		command -v fdfind &>/dev/null && ! command -v fd &>/dev/null && alias fd=fdfind
+		# Clipboard aliases (only when tools are available)
+		command -v copyq &>/dev/null && alias pbcopy='copyq add -' && alias pbpaste='copyq read 0'
 fi
 alias eprofile='emacsclient -nw $HOME/.zshrc'
 alias etmuxconf='emacsclient -nw $HOME/.tmux.conf'
@@ -56,22 +64,24 @@ alias esshconf='emacsclient -nw $HOME/.ssh/config'
 # General
 ###############
 alias ll='ls -la'
-alias cat='bat'
+command -v bat &>/dev/null && alias cat='bat'
 
 # find
-export FZF_DEFAULT_COMMAND='fd --type f -E .git -E .node_modules'
+command -v fd &>/dev/null && export FZF_DEFAULT_COMMAND='fd --type f -E .git -E .node_modules'
 alias findf="fzf --preview 'bat --style=numbers --color=always {} | head -500'"
 
 # man
-export MANPATH=$MANPATH:/opt/homebrew/opt/coreutils/libexec/gnuman
 if [[ "$OSTYPE" == "darwin"* ]]; then
+		export MANPATH=$MANPATH:/opt/homebrew/opt/coreutils/libexec/gnuman
 		alias man="batman" # batman is the man
 fi
 
 # openssl
-export LDFLAGS="-L/opt/homebrew/opt/openssl/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openssl/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl/lib/pkgconfig"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+		export LDFLAGS="-L/opt/homebrew/opt/openssl/lib"
+		export CPPFLAGS="-I/opt/homebrew/opt/openssl/include"
+		export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl/lib/pkgconfig"
+fi
 
 #########
 # Python - sucks
@@ -82,7 +92,7 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl/lib/pkgconfig"
 # pyenv
 export PYENV_ROOT=/usr/local/var/pyenv
 if command -v pyenv &>/dev/null; then eval "$(pyenv init -)"; fi
-export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
+[[ "$OSTYPE" == "darwin"* ]] && export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
 
 #########
 # JS
@@ -97,6 +107,7 @@ export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=1
 #########
 # Go
 #########
+export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
@@ -271,7 +282,7 @@ alias dockerclean='docker system prune --volumes'
 # Misc
 #########
 
-ulimit -n 10240
+ulimit -n 10240 2>/dev/null
 
 # Colors
 export CLICOLOR=1
@@ -320,11 +331,13 @@ healthcheck() {
 alias rmlogs='find logs -type f -mtime +1 -exec rm {} \;'
 
 # pnpm
-export PNPM_HOME="/Users/ben/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+if [[ "$OSTYPE" == "darwin"* ]]; then
+		export PNPM_HOME="/Users/ben/Library/pnpm"
+		case ":$PATH:" in
+			*":$PNPM_HOME:"*) ;;
+			*) export PATH="$PNPM_HOME:$PATH" ;;
+		esac
+fi
 # pnpm end
 
 # bun completions
