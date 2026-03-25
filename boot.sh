@@ -21,7 +21,13 @@ error() {
 
 # Fetch latest release tag from a GitHub repo (e.g. "BurntSushi/ripgrep")
 github_latest_tag() {
-	curl -fsSL "https://api.github.com/repos/$1/releases/latest" 2>/dev/null | grep -o '"tag_name":"[^"]*"' | cut -d'"' -f4
+	local tag
+	tag=$(curl -fsSL "https://api.github.com/repos/$1/releases/latest" 2>/dev/null | grep -o '"tag_name": *"[^"]*"' | cut -d'"' -f4)
+	if [[ -z "$tag" ]]; then
+		error "Failed to fetch latest release for $1 (GitHub API rate limit?)"
+		return 1
+	fi
+	echo "$tag"
 }
 
 setup_color() {
@@ -184,8 +190,7 @@ al2023_installs() {
 	else
 		echo "Installing fd..."
 		FD_VERSION=$(github_latest_tag "sharkdp/fd")
-		FD_VERSION_NUM=${FD_VERSION#v}
-		curl -fsSL "https://github.com/sharkdp/fd/releases/download/$FD_VERSION/fd-$FD_VERSION_NUM-aarch64-unknown-linux-gnu.tar.gz" | sudo tar -xzf - --strip-components=1 -C /usr/local/bin "fd-$FD_VERSION_NUM-aarch64-unknown-linux-gnu/fd"
+		curl -fsSL "https://github.com/sharkdp/fd/releases/download/$FD_VERSION/fd-$FD_VERSION-aarch64-unknown-linux-gnu.tar.gz" | sudo tar -xzf - --strip-components=1 -C /usr/local/bin "fd-$FD_VERSION-aarch64-unknown-linux-gnu/fd"
 	fi
 
 	# bat
@@ -202,8 +207,7 @@ al2023_installs() {
 	else
 		echo "Installing bat..."
 		BAT_VERSION=$(github_latest_tag "sharkdp/bat")
-		BAT_VERSION_NUM=${BAT_VERSION#v}
-		curl -fsSL "https://github.com/sharkdp/bat/releases/download/$BAT_VERSION/bat-$BAT_VERSION_NUM-aarch64-unknown-linux-gnu.tar.gz" | sudo tar -xzf - --strip-components=1 -C /usr/local/bin "bat-$BAT_VERSION_NUM-aarch64-unknown-linux-gnu/bat"
+		curl -fsSL "https://github.com/sharkdp/bat/releases/download/$BAT_VERSION/bat-$BAT_VERSION-aarch64-unknown-linux-gnu.tar.gz" | sudo tar -xzf - --strip-components=1 -C /usr/local/bin "bat-$BAT_VERSION-aarch64-unknown-linux-gnu/bat"
 	fi
 
 	# fzf (git-based — pull to update)
@@ -296,14 +300,21 @@ user_tools() {
 		nvm install --lts
 	fi
 
-	# Claude Code (AL2023 only — macOS uses npm)
-	if [[ "$OS" == "al2023" ]]; then
-		if command_exists claude; then
-			ok "claude"
-		else
-			echo "Installing Claude Code..."
-			curl -fsSL https://claude.ai/install.sh | bash
-		fi
+	# pnpm
+	if command_exists pnpm; then
+		npm install -g pnpm@latest > /dev/null 2>&1 || true
+		ok "pnpm ($(pnpm --version))"
+	else
+		echo "Installing pnpm..."
+		npm install -g pnpm
+	fi
+
+	# Claude Code
+	if command_exists claude; then
+		ok "claude"
+	else
+		echo "Installing Claude Code..."
+		curl -fsSL https://claude.ai/install.sh | bash
 	fi
 
 	# Dotfiles
