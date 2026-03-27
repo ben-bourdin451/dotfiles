@@ -30,6 +30,9 @@ tsconfig.tsbuildinfo
 *.tfstate.*
 .terraform/
 
+# emacs
+.dir-locals.el
+
 # claude code
 settings.local.json
 .claude/worktrees/

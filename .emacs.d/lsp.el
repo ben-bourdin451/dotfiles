@@ -163,6 +163,11 @@
   ;; Ensure Prettier gets filepath to pick correct parser & project config
   (setf (alist-get 'prettier apheleia-formatters)
         '("prettier" "--stdin-filepath" filepath))
+  ;; Biome formatter (used via .dir-locals.el in biome-based projects)
+  (setf (alist-get 'biome apheleia-formatters)
+        '("biome" "format" "--stdin-file-path" filepath))
+  ;; Allow .dir-locals.el to set apheleia-formatter without prompting
+  (put 'apheleia-formatter 'safe-local-variable #'symbolp)
   ;; Map modes -> Prettier
   (dolist (pair '((js-mode . prettier)
                   (js-ts-mode . prettier)
