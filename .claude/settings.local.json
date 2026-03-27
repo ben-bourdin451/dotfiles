@@ -1,5 +1,0 @@
-{
-  "permissions": {
-    "allow": ["Bash(config:*)", "Bash(git --git-dir=$HOME/.dotfiles/:*)"]
-  }
-}
