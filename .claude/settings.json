@@ -1,8 +1,11 @@
 {
   "permissions": {
     "allow": [
+      "Bash(brew:*)",
       "Bash(cat:*)",
       "Bash(cargo:*)",
+      "Bash(chmod:*)",
+      "Bash(docker:*)",
       "Bash(npm install:*)",
       "Bash(npm test:*)",
       "Bash(npm run format:*)",
@@ -25,6 +28,8 @@
       "Bash(pnpm test:*)",
       "Bash(pnpm -w run lint:*)",
       "Bash(sed:*)",
+      "Bash(st:*)",
+      "Bash(stint:*)",
       "Bash(terraform fmt:*)",
       "Bash(terraform get:*)",
       "Bash(terraform init:*)",
@@ -40,7 +45,8 @@
       "WebFetch(domain:pkg.go.dev)",
       "WebFetch(domain:docs.anthropic.com)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "auto"
   },
   "statusLine": {
     "type": "command",
@@ -51,5 +57,5 @@
     "rust-analyzer-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
-  "skipDangerousModePermissionPrompt": true
+  "skipAutoPermissionPrompt": true
 }
