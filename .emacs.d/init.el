@@ -216,17 +216,16 @@
  '(lsp-go-build-flags ["-tags=integration"])
  '(lsp-prefer-flymake nil t)
  '(package-selected-packages
-	 '(all-the-icons apheleia bind-key claude-code-ide company-go counsel
-									 counsel-projectile crux dap-mode dockerfile-mode
-									 doom-modeline doom-themes dumb-jump expand-region
-									 flycheck-golangci-lint git-commit git-gutter
-									 git-timemachine gotest groovy-mode lsp-eslint
-									 lsp-ivy lsp-ui lua-mode multiple-cursors nyan-mode
-									 pkg-info rust-mode sbt-mode scala-mode
-									 smart-tabs-mode terraform-mode treemacs-icons-dired
-									 treemacs-magit treemacs-projectile try
-									 typescript-mode undo-tree vterm vue-mode wgrep
-									 which-key yaml-mode yasnippet-snippets zoom-window))
+	 '(all-the-icons apheleia company-go counsel-projectile crux dap-mode
+									 dockerfile-mode doom-modeline doom-themes dumb-jump
+									 expand-region flycheck git-gutter git-timemachine
+									 gotest groovy-mode lsp-ivy lsp-ui lua-mode
+									 multiple-cursors nyan-mode rust-mode sbt-mode
+									 scala-mode smart-tabs-mode terraform-mode
+									 treemacs-icons-dired treemacs-magit
+									 treemacs-projectile try typescript-mode undo-tree
+									 use-package vue-mode which-key yaml-mode
+									 yasnippet-snippets zoom-window))
  '(package-vc-selected-packages
 	 '((claude-code-ide :url
 											"https://github.com/manzaltu/claude-code-ide.el")))
