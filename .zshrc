@@ -320,6 +320,13 @@ healthcheck() {
 		echo "finished"
 }
 
+# Remove a stale entry from known_hosts by line number
+known-hosts-rm() {
+  local host
+  host=$(sed -n "${1}p" ~/.ssh/known_hosts | cut -d' ' -f1)
+  ssh-keygen -R "$host" && rm -f ~/.ssh/known_hosts.old && echo "Removed host key for $host"
+}
+
 alias rmlogs='find logs -type f -mtime +1 -exec rm {} \;'
 
 # pnpm
@@ -338,11 +345,5 @@ fi
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-fpath=(/Users/ben/.zsh/completions $fpath)
 
-# Remove a stale entry from known_hosts by line number
-known-hosts-rm() {
-  local host
-  host=$(sed -n "${1}p" ~/.ssh/known_hosts | cut -d' ' -f1)
-  ssh-keygen -R "$host" && rm -f ~/.ssh/known_hosts.old && echo "Removed host key for $host"
-}
+fpath=(/Users/ben/.zsh/completions $fpath)
