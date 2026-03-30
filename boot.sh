@@ -100,7 +100,7 @@ setup_cfg() {
 }
 
 common_installs() {
-	local pkgs=(zsh htop jq tar gzip)
+	local pkgs=(zsh htop jq tar gzip tmux)
 	case "$OS" in
 		macos)  ;; # handled by darwin_installs (brew)
 		al2023) sudo dnf install -y "${pkgs[@]}" ;;
