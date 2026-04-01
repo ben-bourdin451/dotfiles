@@ -188,14 +188,14 @@ compdef _cdktf_yargs_completions cdktf
 
 
 #########
-# GitHub App auth for gh CLI
+# GitHub App auth for gh CLI (disabled — using personal gh credentials)
 #########
-[[ -f "$HOME/.config/gh/env" ]] && source "$HOME/.config/gh/env"
-gh() {
-    local token=$("$HOME/.local/bin/gh-app-token" 2>/dev/null)
-    GH_TOKEN="${token:-}" command gh "$@"
-}
-alias ghme='command gh'
+# [[ -f "$HOME/.config/gh/env" ]] && source "$HOME/.config/gh/env"
+# gh() {
+#     local token=$("$HOME/.local/bin/gh-app-token" 2>/dev/null)
+#     GH_TOKEN="${token:-}" command gh "$@"
+# }
+# alias ghme='command gh'
 
 #########
 # Git
