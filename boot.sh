@@ -294,7 +294,8 @@ user_tools() {
 		ok "nvm"
 	else
 		echo "Installing nvm..."
-		curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/refs/heads/master/install.sh | bash
+		NVM_VERSION=$(github_latest_tag "nvm-sh/nvm")
+		curl -fsSL "https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh" | bash
 		export NVM_DIR="$HOME/.nvm"
 		[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 		nvm install --lts
