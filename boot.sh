@@ -228,7 +228,11 @@ al2023_installs() {
 		fi
 	else
 		echo "Installing fzf..."
-		git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+		if [ -d "$HOME/.fzf" ]; then
+			git -C "$HOME/.fzf" pull -q 2>/dev/null || true
+		else
+			git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+		fi
 		"$HOME/.fzf/install" --all --no-update-rc
 	fi
 
