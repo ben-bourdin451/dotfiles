@@ -8,7 +8,8 @@ used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
 total_input=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
 total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
 
-session_cost=$(echo "scale=4; $total_input * 15 / 1000000 + $total_output * 75 / 1000000" | bc)
+session_cost=$(echo "scale=2; $total_input * 15 / 1000000 + $total_output * 75 / 1000000" | bc)
+session_tokens=$(( (total_input + total_output + 500) / 1000 ))
 
 # === Current working directory ===
 cwd=$(echo "$input" | jq -r '.cwd // empty')
@@ -44,13 +45,19 @@ refresh_today_cost() {
       else
         [15, 75, 18.75, 1.50]
       end) as $r |
-      (($m.usage.input_tokens // 0) * $r[0] +
-       ($m.usage.output_tokens // 0) * $r[1] +
-       ($m.usage.cache_creation_input_tokens // 0) * $r[2] +
-       ($m.usage.cache_read_input_tokens // 0) * $r[3]) / 1000000
-    ' 2>/dev/null | awk '{s+=$1} END {printf "%.4f", s}')
+      {
+        cost: (($m.usage.input_tokens // 0) * $r[0] +
+               ($m.usage.output_tokens // 0) * $r[1] +
+               ($m.usage.cache_creation_input_tokens // 0) * $r[2] +
+               ($m.usage.cache_read_input_tokens // 0) * $r[3]) / 1000000,
+        tokens: (($m.usage.input_tokens // 0) + ($m.usage.output_tokens // 0) +
+                 ($m.usage.cache_creation_input_tokens // 0) + ($m.usage.cache_read_input_tokens // 0))
+      }
+    ' 2>/dev/null | jq -s '{cost: (map(.cost) | add), tokens: (map(.tokens) | add)}' | jq -r '"\(.cost // 0) \(.tokens // 0)"')
 
-  echo "${total:-0.0000}" > "$CACHE_FILE"
+  local cost=$(echo "$total" | awk '{print $1}')
+  local tokens=$(echo "$total" | awk '{print $2}')
+  echo "${cost:-0.00} ${tokens:-0}" > "$CACHE_FILE"
   rmdir "$LOCK_FILE" 2>/dev/null
 }
 
@@ -71,7 +78,9 @@ if $need_refresh; then
 fi
 
 # Read cached value
-cost_today=$(cat "$CACHE_FILE" 2>/dev/null || echo "...")
+cached_today=$(cat "$CACHE_FILE" 2>/dev/null || echo "0.00 0")
+cost_today=$(echo "$cached_today" | awk '{printf "%.2f", $1}')
+tokens_today=$(echo "$cached_today" | awk '{t=$2; if(t>=1000000) printf "%dk", t/1000; else if(t>=1000) printf "%dk", t/1000; else printf "%d", t}')
 
 # === Progress bar ===
 bar_width=20
@@ -84,5 +93,5 @@ for ((i=0; i<empty; i++)); do progress_bar+="░"; done
 progress_bar+="]"
 
 # === Output ===
-printf "\033[36mContext: %s %.0f%%\033[0m | \033[32mSession: \$%.4f\033[0m | \033[33mToday: \$%s\033[0m | 📁 %s\n" \
-  "$progress_bar" "$used_pct" "$session_cost" "$cost_today" "$cwd"
+printf "\033[36mContext: %s %.0f%%\033[0m | \033[32mSession: \$%.2f (%sk)\033[0m | \033[33mToday: \$%s (%s)\033[0m | 📁 %s\n" \
+  "$progress_bar" "$used_pct" "$session_cost" "$session_tokens" "$cost_today" "$tokens_today" "$cwd"
