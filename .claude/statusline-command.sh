@@ -55,8 +55,7 @@ refresh_today_cost() {
                ($m.usage.output_tokens // 0) * $r[1] +
                ($m.usage.cache_creation_input_tokens // 0) * $r[2] +
                ($m.usage.cache_read_input_tokens // 0) * $r[3]) / 1000000,
-        tokens: (($m.usage.input_tokens // 0) + ($m.usage.output_tokens // 0) +
-                 ($m.usage.cache_creation_input_tokens // 0) + ($m.usage.cache_read_input_tokens // 0))
+        tokens: (($m.usage.input_tokens // 0) + ($m.usage.output_tokens // 0))
       }
     ' 2>/dev/null | jq -s '{cost: (map(.cost) | add), tokens: (map(.tokens) | add)}' | jq -r '"\(.cost // 0) \(.tokens // 0)"')
 
