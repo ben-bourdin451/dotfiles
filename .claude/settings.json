@@ -57,5 +57,8 @@
     "rust-analyzer-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "env": {
+    "CLAUDE_CODE_NO_FLICKER": "1"
+  }
 }
