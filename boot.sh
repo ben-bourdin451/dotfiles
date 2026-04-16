@@ -300,8 +300,10 @@ user_tools() {
 		echo "Installing nvm..."
 		NVM_VERSION=$(github_latest_tag "nvm-sh/nvm")
 		curl -fsSL "https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh" | bash
-		export NVM_DIR="$HOME/.nvm"
-		[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+	fi
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+	if ! command_exists node; then
 		nvm install --lts
 	fi
 
