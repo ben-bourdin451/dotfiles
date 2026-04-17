@@ -17,20 +17,11 @@ plugins=(git aws npm nvm docker docker-compose)
 
 source $ZSH/oh-my-zsh.sh
 alias szsh='source ~/.zshrc'
-export LANG=en_GB.UTF-8
-[ -f "$HOME/env.sh" ] && source "$HOME/env.sh"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# PATH
-export PATH=$PATH:/usr/local/bin:$HOME/.local/bin
-[[ "$OSTYPE" == "darwin"* ]] && export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin #core utils
-
-[[ "$OSTYPE" == "darwin"* ]] && export CMAKE_OSX_ARCHITECTURES=arm64
 
 ###############
 # Emacs
 ###############
-export EDITOR="emacsclient -t"
 
 # OS specific
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -67,21 +58,10 @@ alias ll='ls -la'
 command -v bat &>/dev/null && alias cat='bat'
 
 # find
-command -v fd &>/dev/null && export FZF_DEFAULT_COMMAND='fd --type f -E .git -E .node_modules'
 alias findf="fzf --preview 'bat --style=numbers --color=always {} | head -500'"
 
 # man
-if [[ "$OSTYPE" == "darwin"* ]]; then
-		export MANPATH=$MANPATH:/opt/homebrew/opt/coreutils/libexec/gnuman
-		alias man="batman" # batman is the man
-fi
-
-# openssl
-if [[ "$OSTYPE" == "darwin"* ]]; then
-		export LDFLAGS="-L/opt/homebrew/opt/openssl/lib"
-		export CPPFLAGS="-I/opt/homebrew/opt/openssl/include"
-		export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl/lib/pkgconfig"
-fi
+[[ "$OSTYPE" == "darwin"* ]] && alias man="batman" # batman is the man
 
 #########
 # Python - sucks
@@ -90,27 +70,14 @@ fi
 # - powerline
 #########
 # pyenv
-export PYENV_ROOT=/usr/local/var/pyenv
 if command -v pyenv &>/dev/null; then eval "$(pyenv init -)"; fi
-[[ "$OSTYPE" == "darwin"* ]] && export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
 
 #########
 # JS
 #########
 # nvm
-export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=1
-
-#########
-# Go
-#########
-export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOBIN
 
 #########
 # Ruby
@@ -121,18 +88,8 @@ export PATH=$PATH:$GOBIN
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 #########
-# Flutter & Dart
-#########
-export PATH=$PATH:/usr/local/flutter/bin
-export PATH=$PATH:/usr/local/android_sdk/cmdline-tools/bin
-export ANDROID_HOME=/usr/local/android_sdk
-export FLUTTER_GIT_URL=git@github.com:/flutter/flutter.git
-
-#########
 # AWS
 #########
-export AWS_DATA_PATH="$HOME/tools/aws-cli"
-export AWS_PAGER=""
 alias awsmfa="$HOME/aws_mfa.sh"
 unalias awssso 2>/dev/null
 awssso() { aws sso login --sso-session "$1"; }
@@ -142,7 +99,6 @@ alias cdk="npx aws-cdk --no-change-set"
 # Terraform
 #########
 # export TF_LOG="TRACE"
-export TF_LOG_PATH="$HOME/.terraform.d/tf.log"
 # export TF_VAR_gcp_creds="$HOME/.config/gcloud/application_default_credentials.json"
 
 alias tf="terraform"
@@ -204,17 +160,17 @@ alias gg='git grep -ri'
 alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias rmorig='find . -type f -name "*.orig" -exec rm {} \;'
 
-gitgone() {
-    git fetch -p && for branch in $(git branch -v | fgrep 'gone]' | awk '{print $1}'); do git branch -D $branch; done
-}
+# gitgone() {
+#     git fetch -p && for branch in $(git branch -v | fgrep 'gone]' | awk '{print $1}'); do git branch -D $branch; done
+# }
 
-wtgone() {
+gitgone() {
     git fetch -p
+    git worktree prune
     for branch in $(git branch -v | fgrep 'gone]' | awk '{print $1}'); do
         wt=$(git worktree list | fgrep "[$branch]" | awk '{print $1}')
         if [ -n "$wt" ]; then
             git worktree remove --force "$wt"
-            git worktree prune
         fi
         git branch -D "$branch"
     done
@@ -276,10 +232,6 @@ alias dockerclean='docker system prune --volumes'
 
 ulimit -n 10240 2>/dev/null
 
-# Colors
-export CLICOLOR=1
-export LSCOLORS=ExFxCxDxBxegedabagacad
-
 # Custom functions
 now() { date +%s }
 tping() { ping "$@" | perl -nle "print scalar(localtime), \" \", \$_"; } # ping with timestamp
@@ -329,21 +281,7 @@ known-hosts-rm() {
 
 alias rmlogs='find logs -type f -mtime +1 -exec rm {} \;'
 
-# pnpm
-if [[ "$OSTYPE" == "darwin"* ]]; then
-		export PNPM_HOME="/Users/ben/Library/pnpm"
-		case ":$PATH:" in
-			*":$PNPM_HOME:"*) ;;
-			*) export PATH="$PNPM_HOME:$PATH" ;;
-		esac
-fi
-# pnpm end
-
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
 
 fpath=(/Users/ben/.zsh/completions $fpath)
