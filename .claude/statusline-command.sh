@@ -7,9 +7,27 @@ input=$(cat)
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
 total_input=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
 total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
+current_input=$(echo "$input" | jq -r '.context_window.current_usage.input_tokens // 0')
+current_output=$(echo "$input" | jq -r '.context_window.current_usage.output_tokens // 0')
 
 session_cost=$(echo "scale=2; $total_input * 15 / 1000000 + $total_output * 75 / 1000000" | bc)
-session_tokens_raw=$(( total_input + total_output ))
+
+# Accumulate session tokens across turns using PPID as session key
+SESSION_TOKEN_FILE="/tmp/claude-session-tokens-$PPID"
+if [[ -f "$SESSION_TOKEN_FILE" ]]; then
+  prev_marker=$(awk '{print $1}' "$SESSION_TOKEN_FILE")
+  session_tokens_raw=$(awk '{print $2}' "$SESSION_TOKEN_FILE")
+else
+  prev_marker=0
+  session_tokens_raw=0
+fi
+
+# When total_output_tokens increases, a new turn completed
+if (( total_output > prev_marker )); then
+  session_tokens_raw=$(( session_tokens_raw + current_input + current_output ))
+  echo "$total_output $session_tokens_raw" > "$SESSION_TOKEN_FILE"
+fi
+
 if (( session_tokens_raw >= 1000000 )); then
   session_tokens=$(awk "BEGIN {printf \"%.1fM\", $session_tokens_raw / 1000000}")
 else
