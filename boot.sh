@@ -290,7 +290,7 @@ user_tools() {
 		ok "oh-my-zsh"
 	else
 		echo "Installing oh-my-zsh..."
-		sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+		KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	fi
 
 	# nvm + node
