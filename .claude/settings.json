@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_NO_FLICKER": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(brew:*)",
@@ -56,9 +59,6 @@
     "gopls-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true
   },
-  "effortLevel": "medium",
-  "skipAutoPermissionPrompt": true,
-  "env": {
-    "CLAUDE_CODE_NO_FLICKER": "1"
-  }
+  "effortLevel": "xhigh",
+  "skipAutoPermissionPrompt": true
 }
