@@ -12,6 +12,7 @@ Check what agents & skills are available for use before starting a task.
 - **branch naming**: never use `/` in the branch names, use `-` or `_` instead. max 70 characters.
 - **Never discard uncommitted work**: before running `git checkout -- .`, `git restore .`, `git clean -fd`, or `git stash` in any repo, first check `git status` and `git diff --stat`. If there are uncommitted changes, ask the user before discarding them. Use targeted `git checkout -- <file>` for specific files instead of blanket restores.
 - when instructed to create PRs, always check to see if CI passes. if not keep iterating until it does.
+- **worktree location**: for any git-tracked repo, place new worktrees at `<repo-root>/.claude/worktrees/<branch-name>` (e.g. `git -C <repo> worktree add .claude/worktrees/<branch> -b <branch> origin/<base>`). The path `.claude/worktrees/` is in the global gitignore (`~/.gitignore`, wired via `core.excludesfile`) so nested worktrees won't show up as untracked in the parent repo. Prefer this over sibling-directory conventions like `<repo>-worktrees/`.
 
 ## Dotfiles
 
