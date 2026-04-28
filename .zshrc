@@ -160,14 +160,10 @@ alias gg='git grep -ri'
 alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias rmorig='find . -type f -name "*.orig" -exec rm {} \;'
 
-# gitgone() {
-#     git fetch -p && for branch in $(git branch -v | fgrep 'gone]' | awk '{print $1}'); do git branch -D $branch; done
-# }
-
 gitgone() {
     git fetch -p
     git worktree prune
-    for branch in $(git branch -v | fgrep 'gone]' | awk '{print $1}'); do
+    for branch in $(git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {print $1}'); do
         wt=$(git worktree list | fgrep "[$branch]" | awk '{print $1}')
         if [ -n "$wt" ]; then
             git worktree remove --force "$wt"
