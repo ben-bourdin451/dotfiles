@@ -60,5 +60,6 @@
     "rust-analyzer-lsp@claude-plugins-official": true
   },
   "effortLevel": "xhigh",
+  "preferredNotifChannel": "terminal_bell",
   "skipAutoPermissionPrompt": true
 }
