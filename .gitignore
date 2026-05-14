@@ -36,3 +36,4 @@ tsconfig.tsbuildinfo
 # claude code
 settings.local.json
 .claude/worktrees/
+.claude/scheduled_tasks.lock
