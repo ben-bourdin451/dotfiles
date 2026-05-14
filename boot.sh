@@ -123,7 +123,9 @@ darwin_installs() {
 		bat eth-p/software/bat-extras \
 		diff-so-fancy \
 		jq \
-		yarn
+		yarn \
+		hashicorp/tap/terraform \
+		terragrunt
 }
 
 al2023_installs() {
@@ -245,6 +247,34 @@ al2023_installs() {
 		sudo git clone https://github.com/so-fancy/diff-so-fancy.git /usr/local/src/diff-so-fancy
 		sudo ln -sf /usr/local/src/diff-so-fancy/diff-so-fancy /usr/local/bin/diff-so-fancy
 	fi
+
+	# terraform (HashiCorp dnf repo)
+	if command_exists terraform; then
+		ok "terraform ($(terraform version | head -1 | awk '{print $2}' | tr -d 'v'))"
+	else
+		echo "Installing terraform..."
+		sudo dnf install -y 'dnf-command(config-manager)'
+		sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+		sudo dnf install -y terraform
+	fi
+
+	# terragrunt (binary release)
+	if command_exists terragrunt; then
+		local tg_installed tg_latest
+		tg_installed=$(terragrunt --version 2>/dev/null | awk '{print $NF}' | tr -d 'v')
+		tg_latest=$(github_latest_tag "gruntwork-io/terragrunt")
+		tg_latest=${tg_latest#v}
+		if [[ -n "$tg_latest" && "$tg_installed" != "$tg_latest" ]]; then
+			update_available "terragrunt ($tg_installed)" "$tg_latest"
+		else
+			ok "terragrunt ($tg_installed)"
+		fi
+	else
+		echo "Installing terragrunt..."
+		TG_VERSION=$(github_latest_tag "gruntwork-io/terragrunt")
+		sudo curl -fsSL "https://github.com/gruntwork-io/terragrunt/releases/download/$TG_VERSION/terragrunt_linux_arm64" -o /usr/local/bin/terragrunt
+		sudo chmod +x /usr/local/bin/terragrunt
+	fi
 }
 
 apt_installs() {
@@ -268,6 +298,30 @@ apt_installs() {
 	else
 		sudo git clone https://github.com/so-fancy/diff-so-fancy.git /usr/local/src/diff-so-fancy
 		sudo ln -sf /usr/local/src/diff-so-fancy/diff-so-fancy /usr/local/bin/diff-so-fancy
+	fi
+
+	# terraform (HashiCorp apt repo)
+	if command_exists terraform; then
+		ok "terraform ($(terraform version | head -1 | awk '{print $2}' | tr -d 'v'))"
+	else
+		echo "Installing terraform..."
+		sudo apt-get install -y gnupg software-properties-common curl
+		curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+		echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
+			| sudo tee /etc/apt/sources.list.d/hashicorp.list >/dev/null
+		sudo apt-get update && sudo apt-get install -y terraform
+	fi
+
+	# terragrunt (binary release)
+	if command_exists terragrunt; then
+		ok "terragrunt ($(terragrunt --version 2>/dev/null | awk '{print $NF}' | tr -d 'v'))"
+	else
+		echo "Installing terragrunt..."
+		local arch
+		arch=$(dpkg --print-architecture)
+		TG_VERSION=$(github_latest_tag "gruntwork-io/terragrunt")
+		sudo curl -fsSL "https://github.com/gruntwork-io/terragrunt/releases/download/$TG_VERSION/terragrunt_linux_${arch}" -o /usr/local/bin/terragrunt
+		sudo chmod +x /usr/local/bin/terragrunt
 	fi
 }
 

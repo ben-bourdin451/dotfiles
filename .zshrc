@@ -102,6 +102,7 @@ alias cdk="npx aws-cdk --no-change-set"
 # export TF_VAR_gcp_creds="$HOME/.config/gcloud/application_default_credentials.json"
 
 alias tf="terraform"
+alias tg="terragrunt"
 alias tflog='tail -f $TF_LOG_PATH'
 
 tf-set-creds() {
