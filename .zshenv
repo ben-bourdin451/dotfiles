@@ -20,16 +20,22 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 # PATH basics
 export PATH=$PATH:/usr/local/bin:$HOME/.local/bin
-[[ "$OSTYPE" == "darwin"* ]] && export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin
-
-# macOS build flags
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    export CMAKE_OSX_ARCHITECTURES=arm64
+		export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin
+		export CMAKE_OSX_ARCHITECTURES=arm64
+fi
+
+# macOS + homebrew build flags
+if [[ "$OSTYPE" == "darwin"* ]] && command -v brew &>/dev/null; then
     export MANPATH=$MANPATH:/opt/homebrew/opt/coreutils/libexec/gnuman
-    # openssl
-    export LDFLAGS="-L/opt/homebrew/opt/openssl/lib"
-    export CPPFLAGS="-I/opt/homebrew/opt/openssl/include"
-    export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl/lib/pkgconfig"
+
+		OPENSSL_PREFIX=$(brew --prefix openssl 2>/dev/null)
+    if [[ -n "$OPENSSL_PREFIX" ]]; then
+        export PATH="$OPENSSL_PREFIX/bin:$PATH"
+        export LDFLAGS="-L$OPENSSL_PREFIX/lib"
+        export CPPFLAGS="-I$OPENSSL_PREFIX/include"
+        export PKG_CONFIG_PATH="$OPENSSL_PREFIX/lib/pkgconfig"
+    fi
 fi
 
 # Python / pyenv

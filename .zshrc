@@ -16,7 +16,7 @@ HYPHEN_INSENSITIVE="true"
 plugins=(git aws npm nvm docker docker-compose)
 
 source $ZSH/oh-my-zsh.sh
-alias szsh='source ~/.zshrc'
+alias szsh='source ~/.zshrc && source ~/.zshenv'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ###############
