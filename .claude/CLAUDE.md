@@ -7,6 +7,10 @@ Check what agents & skills are available for use before starting a task.
 - Use `jq` instead of python when piping and filtering JSON in bash tool calls.
 - Use -C to run git commands in different directories
 
+## Testing
+
+- **Colocate unit tests with source, 1:1 by name.** Place unit-test files next to the file they cover — never in a shared `tests/`, `__tests__/`, or `spec/` directory. Each test file maps to exactly one source file: `foo.ts` → `foo.test.ts`, `Hello.vue` → `Hello.test.ts`, `service.go` → `service_test.go`. When adding the first test in a project that currently uses a shared `tests/` dir, also migrate existing tests to the colocated layout and update any test-runner `include` globs and `tsconfig` paths. Integration and end-to-end tests are exempt — they may live in dedicated directories (e.g. `*_int_test.go`, `e2e/`, `integration/`).
+
 ## git & github
 
 - **branch naming**: never use `/` in the branch names, use `-` or `_` instead. max 70 characters.
