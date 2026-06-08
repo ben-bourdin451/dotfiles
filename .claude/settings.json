@@ -46,7 +46,8 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:npmjs.com)",
       "WebFetch(domain:pkg.go.dev)",
-      "WebFetch(domain:docs.anthropic.com)"
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:developers.cloudflare.com)"
     ],
     "deny": [],
     "defaultMode": "auto"
@@ -63,5 +64,18 @@
   "effortLevel": "high",
   "preferredNotifChannel": "terminal_bell",
   "skipAutoPermissionPrompt": true,
-  "skipWorkflowUsageWarning": true
+  "skipWorkflowUsageWarning": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/dotfiles-home-context.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
