@@ -1,0 +1,6 @@
+# Secrets — never commit
+.env
+
+# Local Playwright install
+node_modules/
+package-lock.json

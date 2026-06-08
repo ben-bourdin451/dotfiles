@@ -1,0 +1,12 @@
+{
+  "name": "hyperoptic-zyxel-wifi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reset Wi-Fi SSID/password on a Hyperoptic EX3301-T0 (Zyxel) router via Playwright",
+  "scripts": {
+    "set-wifi": "node set-wifi.js"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}
