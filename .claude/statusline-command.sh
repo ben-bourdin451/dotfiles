@@ -3,36 +3,8 @@
 # Read JSON input
 input=$(cat)
 
-# === Current session ===
+# === Context window ===
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
-total_input=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
-total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
-current_input=$(echo "$input" | jq -r '.context_window.current_usage.input_tokens // 0')
-current_output=$(echo "$input" | jq -r '.context_window.current_usage.output_tokens // 0')
-
-session_cost=$(echo "scale=2; $total_input * 15 / 1000000 + $total_output * 75 / 1000000" | bc)
-
-# Accumulate session tokens across turns using PPID as session key
-SESSION_TOKEN_FILE="/tmp/claude-session-tokens-$PPID"
-if [[ -f "$SESSION_TOKEN_FILE" ]]; then
-  prev_marker=$(awk '{print $1}' "$SESSION_TOKEN_FILE")
-  session_tokens_raw=$(awk '{print $2}' "$SESSION_TOKEN_FILE")
-else
-  prev_marker=0
-  session_tokens_raw=0
-fi
-
-# When total_output_tokens increases, a new turn completed
-if (( total_output > prev_marker )); then
-  session_tokens_raw=$(( session_tokens_raw + current_input + current_output ))
-  echo "$total_output $session_tokens_raw" > "$SESSION_TOKEN_FILE"
-fi
-
-if (( session_tokens_raw >= 1000000 )); then
-  session_tokens=$(awk "BEGIN {printf \"%.1fM\", $session_tokens_raw / 1000000}")
-else
-  session_tokens="$(( (session_tokens_raw + 500) / 1000 ))k"
-fi
 
 # === Current working directory ===
 cwd=$(echo "$input" | jq -r '.cwd // empty')
@@ -69,10 +41,10 @@ refresh_today_cost() {
         [15, 75, 18.75, 1.50]
       end) as $r |
       {
-        cost: (($m.usage.input_tokens // 0) * $r[0] +
+        cost: ((($m.usage.input_tokens // 0) * $r[0] +
                ($m.usage.output_tokens // 0) * $r[1] +
                ($m.usage.cache_creation_input_tokens // 0) * $r[2] +
-               ($m.usage.cache_read_input_tokens // 0) * $r[3]) / 1000000,
+               ($m.usage.cache_read_input_tokens // 0) * $r[3]) / 1000000),
         tokens: (($m.usage.input_tokens // 0) + ($m.usage.output_tokens // 0) +
                  ($m.usage.cache_creation_input_tokens // 0))
       }
@@ -116,5 +88,5 @@ for ((i=0; i<empty; i++)); do progress_bar+="░"; done
 progress_bar+="]"
 
 # === Output ===
-printf "\033[36mContext: %s %.0f%%\033[0m | \033[32mSession: \$%.2f (%s)\033[0m | \033[33mToday: \$%s (%s)\033[0m | 📁 %s\n" \
-  "$progress_bar" "$used_pct" "$session_cost" "$session_tokens" "$cost_today" "$tokens_today" "$cwd"
+printf "\033[36mContext: %s %.0f%%\033[0m | \033[33mToday: \$%s (%s)\033[0m | 📁 %s\n" \
+  "$progress_bar" "$used_pct" "$cost_today" "$tokens_today" "$cwd"
