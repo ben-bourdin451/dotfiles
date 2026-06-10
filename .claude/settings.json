@@ -52,19 +52,6 @@
     "deny": [],
     "defaultMode": "auto"
   },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline-command.sh"
-  },
-  "enabledPlugins": {
-    "gopls-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true
-  },
-  "effortLevel": "high",
-  "preferredNotifChannel": "terminal_bell",
-  "skipAutoPermissionPrompt": true,
-  "skipWorkflowUsageWarning": true,
   "hooks": {
     "SessionStart": [
       {
@@ -77,5 +64,18 @@
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true
+  },
+  "effortLevel": "high",
+  "skipWorkflowUsageWarning": true,
+  "preferredNotifChannel": "terminal_bell",
+  "skipAutoPermissionPrompt": true
 }
