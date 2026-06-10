@@ -370,6 +370,14 @@ user_tools() {
 		npm install -g pnpm
 	fi
 
+	# hunk (git diff pager)
+	if command_exists hunk; then
+		ok "hunk ($(hunk --version 2>/dev/null | awk '{print $NF}'))"
+	else
+		echo "Installing hunk..."
+		npm install -g hunkdiff
+	fi
+
 	# Claude Code
 	if command_exists claude; then
 		ok "claude"

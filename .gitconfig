@@ -2,7 +2,6 @@
 	name = Ben Bourdin
 	email = ben.bourdin451@gmail.com
 [core]
-	# pager = diff-so-fancy | less --tabs=2 -RFX
 	pager = less --tabs=2 -RFX
 	excludesfile = ~/.gitignore
 	editor = emacsclient
