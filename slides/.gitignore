@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.local
+.slidev/
+.DS_Store
+
+# Exported artifacts
+*.pdf
+*.pptx
+decks/**/dist/
