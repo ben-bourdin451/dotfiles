@@ -6,8 +6,8 @@
 	excludesfile = ~/.gitignore
 	editor = emacsclient
 [pager]
-	diff = hunk pager
-	show = hunk pager
+	diff = hunk pager --wrap
+	show = hunk pager --wrap
 [diff]
 	tool = ediff
 [difftool "ediff"]
