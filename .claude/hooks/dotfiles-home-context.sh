@@ -15,7 +15,7 @@ cat <<'EOF'
 
 My home directory (~) config files are tracked in a **bare git repo** at
 `$HOME/.dotfiles/` (`core.bare=true`) with work-tree = `$HOME`, synced to
-`git@github.com:ben-bourdin451/dotfiles.git` (branch `master`).
+`git@github.com:ben-bourdin451/dotfiles.git` (branch `main`).
 
 - Use the `config` alias for dotfiles git ops:
   `config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'`. In non-interactive
