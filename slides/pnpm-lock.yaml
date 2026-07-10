@@ -10,13 +10,17 @@ importers:
     dependencies:
       '@slidev/cli':
         specifier: ^52.0.0
-        version: 52.16.0(@nuxt/kit@3.21.8)(@types/markdown-it@14.1.2)(@types/node@22.20.0)(@vue/compiler-sfc@3.5.39)(lightningcss@1.32.0)(markdown-it@14.3.0)(postcss@8.5.16)(rolldown@1.1.4)
+        version: 52.16.0(@nuxt/kit@3.21.8)(@types/markdown-it@14.1.2)(@types/node@22.20.0)(@vue/compiler-sfc@3.5.39)(lightningcss@1.32.0)(markdown-it@14.3.0)(playwright-chromium@1.61.1)(postcss@8.5.16)(rolldown@1.1.4)
       '@slidev/theme-default':
         specifier: latest
         version: 0.25.0
       '@slidev/theme-seriph':
         specifier: latest
         version: 0.25.0
+    devDependencies:
+      playwright-chromium:
+        specifier: ^1.61.1
+        version: 1.61.1
 
 packages:
 
@@ -2517,6 +2521,16 @@ packages:
   plantuml-encoder@1.4.0:
     resolution: {integrity: sha512-sxMwpDw/ySY1WB2CE3+IdMuEcWibJ72DDOsXLkSmEaSzwEUaYBT6DWgOfBiHGCux4q433X6+OEFWjlVqp7gL6g==}
 
+  playwright-chromium@1.61.1:
+    resolution: {integrity: sha512-YK3K8JakUv5Hq5WjY6oU/XwuD/041s9XVtoTKTrZHYRY72DOAsni/iXye7iBS8lgYWUZENt/6tBnpmhaSg72ug==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright-core@1.61.1:
+    resolution: {integrity: sha512-h7Qlt6m4REp25qvIdvbDtVmD4LqVXfpRxhORv9L0jzETM05p4fuPJ3dKyuSXQxDSbXnmS79HAgi9589lGSpLkg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   points-on-curve@0.2.0:
     resolution: {integrity: sha512-0mYKnYYe9ZcqMCWhUjItv/oHjvgEsfKvnUTg8sAtnHr3GVy7rGkXCb6d5cSyqrWqL4k81b9CPg3urd+T7aop3A==}
 
@@ -3893,7 +3907,7 @@ snapshots:
 
   '@shikijs/vscode-textmate@10.0.2': {}
 
-  '@slidev/cli@52.16.0(@nuxt/kit@3.21.8)(@types/markdown-it@14.1.2)(@types/node@22.20.0)(@vue/compiler-sfc@3.5.39)(lightningcss@1.32.0)(markdown-it@14.3.0)(postcss@8.5.16)(rolldown@1.1.4)':
+  '@slidev/cli@52.16.0(@nuxt/kit@3.21.8)(@types/markdown-it@14.1.2)(@types/node@22.20.0)(@vue/compiler-sfc@3.5.39)(lightningcss@1.32.0)(markdown-it@14.3.0)(playwright-chromium@1.61.1)(postcss@8.5.16)(rolldown@1.1.4)':
     dependencies:
       '@antfu/ni': 30.2.0
       '@antfu/utils': 9.3.0
@@ -3966,6 +3980,8 @@ snapshots:
       vue: 3.5.39(typescript@6.0.3)
       yaml: 2.9.0
       yargs: 18.0.0
+    optionalDependencies:
+      playwright-chromium: 1.61.1
     transitivePeerDependencies:
       - '@farmfe/core'
       - '@modelcontextprotocol/sdk'
@@ -6150,6 +6166,12 @@ snapshots:
       pathe: 2.0.3
 
   plantuml-encoder@1.4.0: {}
+
+  playwright-chromium@1.61.1:
+    dependencies:
+      playwright-core: 1.61.1
+
+  playwright-core@1.61.1: {}
 
   points-on-curve@0.2.0: {}
 

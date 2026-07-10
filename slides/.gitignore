@@ -8,3 +8,7 @@ dist/
 *.pdf
 *.pptx
 decks/**/dist/
+
+# Personal / not for sharing (kept local only)
+/about-me.md
+/assets/

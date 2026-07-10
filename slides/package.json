@@ -11,5 +11,8 @@
     "@slidev/cli": "^52.0.0",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.61.1"
   }
 }
