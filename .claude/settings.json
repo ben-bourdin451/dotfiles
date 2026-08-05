@@ -44,7 +44,6 @@
       "Read(~/.zshrc)",
       "Read(~/workspace/**)",
       "Read(~/workspace/code-review-memory.md)",
-      "Write(~/workspace/code-review-memory.md)",
       "Edit(~/workspace/code-review-memory.md)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:npmjs.com)",
@@ -72,12 +71,22 @@
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
   },
+  "disableClaudeAiConnectors": true,
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true
+    "claude-md-management@claude-plugins-official": false,
+    "cloudflare@cloudflare": false
   },
-  "effortLevel": "high",
+  "extraKnownMarketplaces": {
+    "cloudflare": {
+      "source": {
+        "source": "github",
+        "repo": "cloudflare/skills"
+      }
+    }
+  },
+  "effortLevel": "xhigh",
   "skipWorkflowUsageWarning": true,
   "preferredNotifChannel": "terminal_bell",
   "skipAutoPermissionPrompt": true
