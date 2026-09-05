@@ -7,7 +7,6 @@
       "Bash(brew:*)",
       "Bash(cat:*)",
       "Bash(cargo:*)",
-      "Bash(chmod:*)",
       "Bash(docker:*)",
       "Bash(npm install:*)",
       "Bash(npm test:*)",
@@ -54,6 +53,7 @@
     "deny": [],
     "defaultMode": "auto"
   },
+  "disableClaudeAiConnectors": true,
   "hooks": {
     "SessionStart": [
       {
@@ -71,7 +71,6 @@
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
   },
-  "disableClaudeAiConnectors": true,
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
@@ -89,5 +88,13 @@
   "effortLevel": "xhigh",
   "skipWorkflowUsageWarning": true,
   "preferredNotifChannel": "terminal_bell",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(terraform apply:*)",
+      "Bash(aws ecs update-service:*)",
+      "Bash(git push --force*)"
+    ]
+  }
 }
