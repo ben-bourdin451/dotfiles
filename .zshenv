@@ -71,5 +71,8 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# Blender (macOS app bundle; lowercase `blender` resolves on the case-insensitive FS)
+[[ -d "/Applications/Blender.app/Contents/MacOS" ]] && export PATH="$PATH:/Applications/Blender.app/Contents/MacOS"
+
 # env.sh — secrets / tokens (GH_TOKEN, GITHUB_TOKEN, etc.)
 [ -f "$HOME/env.sh" ] && source "$HOME/env.sh"
