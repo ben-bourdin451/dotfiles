@@ -4,8 +4,12 @@
 # so without this, PATH grows on each invocation.
 typeset -U path PATH fpath manpath MANPATH
 
-# Homebrew
-[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew + Python — STATIC prepends only, no subprocess. This file runs on
+# every zsh invocation, so nothing here may fork. These exist purely so that
+# non-login shells and scripts can still find brew-installed tools; the
+# authoritative ordering is re-asserted in ~/.zprofile, which runs *after*
+# /etc/zprofile's path_helper (which would otherwise demote them under /usr/bin).
+[[ -x /opt/homebrew/bin/brew ]] && export PATH="/opt/homebrew/opt/python/libexec/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
 # Rust / cargo
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
@@ -25,22 +29,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 		export CMAKE_OSX_ARCHITECTURES=arm64
 fi
 
-# macOS + homebrew build flags
-if [[ "$OSTYPE" == "darwin"* ]] && command -v brew &>/dev/null; then
-    export MANPATH=$MANPATH:/opt/homebrew/opt/coreutils/libexec/gnuman
-
-		OPENSSL_PREFIX=$(brew --prefix openssl 2>/dev/null)
-    if [[ -n "$OPENSSL_PREFIX" ]]; then
-        export PATH="$OPENSSL_PREFIX/bin:$PATH"
-        export LDFLAGS="-L$OPENSSL_PREFIX/lib"
-        export CPPFLAGS="-I$OPENSSL_PREFIX/include"
-        export PKG_CONFIG_PATH="$OPENSSL_PREFIX/lib/pkgconfig"
-    fi
-fi
-
 # Python / pyenv
 export PYENV_ROOT=/usr/local/var/pyenv
-[[ "$OSTYPE" == "darwin"* ]] && export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
 
 # Node / nvm
 export NVM_DIR="$HOME/.nvm"
