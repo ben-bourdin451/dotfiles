@@ -1,0 +1,84 @@
+/* Self-hosted Vela Sans. Files live in ./public/fonts and are served from /fonts.
+   `font-display: swap` shows a fallback until the font loads. */
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-Light.woff2') format('woff2'),
+       url('/fonts/VelaSans-Light.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-Regular.woff2') format('woff2'),
+       url('/fonts/VelaSans-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-Medium.woff2') format('woff2'),
+       url('/fonts/VelaSans-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-SemiBold.woff2') format('woff2'),
+       url('/fonts/VelaSans-SemiBold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-Bold.woff2') format('woff2'),
+       url('/fonts/VelaSans-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-ExtraBold.woff2') format('woff2'),
+       url('/fonts/VelaSans-ExtraBold.woff') format('woff');
+}
+
+/* Slide titles: Vela Sans SemiBold, dark yellow (midpoint of
+   linear-gradient(83deg, #ffcc34 0%, #ffaa00 48%, #ffaa00 100%)).
+   The layout-specific selectors (.cover/.intro/.section/.statement/.fact)
+   match the two-class rules seriph uses to force color/weight on those
+   title layouts, so our color + SemiBold weight win everywhere. */
+:root {
+  --slide-title: #ffbb1a;
+}
+
+.slidev-layout h1,
+.slidev-layout.cover h1,
+.slidev-layout.intro h1,
+.slidev-layout.section h1,
+.slidev-layout.statement h1,
+.slidev-layout.fact h1 {
+  color: var(--slide-title);
+  font-family: 'Vela Sans', sans-serif;
+  font-weight: 600;
+}
+
+/* Failure-mode slides: column headers for the symptom / remediation split. */
+.fm-head {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.fm-head.sym { color: #fca5a5; } /* rose-300 */
+.fm-head.rem { color: #6ee7b7; } /* emerald-300 */

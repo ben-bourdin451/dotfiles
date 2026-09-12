@@ -1,0 +1,234 @@
+/* Self-hosted Vela Sans. Files live in ./public/fonts and are served from /fonts.
+   `font-display: swap` shows a fallback until the font loads. */
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-Light.woff2') format('woff2'),
+       url('/fonts/VelaSans-Light.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-Regular.woff2') format('woff2'),
+       url('/fonts/VelaSans-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-Medium.woff2') format('woff2'),
+       url('/fonts/VelaSans-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-SemiBold.woff2') format('woff2'),
+       url('/fonts/VelaSans-SemiBold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-Bold.woff2') format('woff2'),
+       url('/fonts/VelaSans-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Vela Sans';
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/VelaSans-ExtraBold.woff2') format('woff2'),
+       url('/fonts/VelaSans-ExtraBold.woff') format('woff');
+}
+
+/* Slide titles: Vela Sans SemiBold, dark yellow (midpoint of
+   linear-gradient(83deg, #ffcc34 0%, #ffaa00 48%, #ffaa00 100%)).
+   The layout-specific selectors (.cover/.intro/.section/.statement/.fact)
+   match the two-class rules seriph uses to force color/weight on those
+   title layouts, so our color + SemiBold weight win everywhere. */
+:root {
+  --slide-title: #ffbb1a;
+}
+
+.slidev-layout h1,
+.slidev-layout.cover h1,
+.slidev-layout.intro h1,
+.slidev-layout.section h1,
+.slidev-layout.statement h1,
+.slidev-layout.fact h1 {
+  color: var(--slide-title);
+  font-family: 'Vela Sans', sans-serif;
+  font-weight: 600;
+}
+
+/* Failure-mode slides: column headers for the symptom / remediation split. */
+.fm-head {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.fm-head.sym { color: #fca5a5; } /* rose-300 */
+.fm-head.rem { color: #6ee7b7; } /* emerald-300 */
+
+/* ------------------------------------------------------------------ */
+/* ai-workshop deck                                                   */
+/* ------------------------------------------------------------------ */
+
+/* Prompt snippet card */
+.snippet {
+  border-left: 4px solid rgba(129, 140, 248, 0.9); /* indigo-400 */
+  background: rgba(129, 140, 248, 0.08);
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.9rem 0.7rem;
+  margin: 0.4rem 0;
+}
+.snippet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+.snippet-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a5b4fc; /* indigo-300 */
+}
+.snippet-body {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+}
+.snippet-body p { margin: 0 0 0.35rem; }
+.snippet-body p:last-child { margin-bottom: 0; }
+.snippet-body ol, .snippet-body ul { margin: 0.15rem 0 0.35rem; padding-left: 1.2rem; }
+.snippet-body li { margin: 0; line-height: 1.4; }
+.snippet-body em { color: #fde68a; font-style: normal; }   /* placeholders */
+.snippet-body strong { color: #c7d2fe; }
+
+/* Tone variants for "before / after" comparisons */
+.snippet-a { border-left-color: rgba(252, 165, 165, 0.9); background: rgba(252, 165, 165, 0.07); }
+.snippet-a .snippet-label { color: #fca5a5; }
+.snippet-b { border-left-color: rgba(110, 231, 183, 0.9); background: rgba(110, 231, 183, 0.07); }
+.snippet-b .snippet-label { color: #6ee7b7; }
+
+/* Takeaway callout.
+
+   A takeaway always sits at the bottom of its slide: the :has() rule turns any
+   slide holding one into a flex column, and the auto top margin then soaks up
+   whatever vertical slack is left. No per-slide classes needed.
+
+   Note the auto margin replaces the 0.9rem rather than flooring it, so on a
+   slide with no slack left the gap collapses to 0 — treat that as the signal
+   that the slide is overfull rather than papering over it here.
+
+   The bottom margin keeps it clear of the footers. The slide's own padding
+   stops 2.5rem above the bottom edge, but the section indicator and the logo
+   sit at `m-4 h-5` — i.e. from 1rem to 2.25rem up — so without this the
+   takeaway would land a quarter of a rem above them and read as crowded.
+   It scales with the slide's `zoom`, so the few zoomed slides clear them by a
+   little less than the rest — still separated, just tighter.
+
+   Layouts with their own bottom slot (two-cols-header's ::bottom::) anchor it
+   via `align-self: end` already, and deliberately do not match the child
+   combinator below — but they do pick up the bottom margin, so both kinds of
+   takeaway sit off the footers. */
+.takeaway {
+  margin-top: 0.9rem;
+  margin-bottom: 1.5rem;
+  padding: 0.7rem 1rem;
+  border-left: 4px solid #ffbb1a;
+  background: rgba(255, 187, 26, 0.08);
+  border-radius: 0.375rem;
+}
+.slidev-layout:has(> .takeaway) {
+  display: flex;
+  flex-direction: column;
+}
+.slidev-layout > .takeaway {
+  margin-top: auto;
+}
+.takeaway .lbl {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffbb1a;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+/* Column headers (good / bad, symptom / remedy) */
+.col-head {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+.col-head.bad { color: #fca5a5; }
+.col-head.good { color: #6ee7b7; }
+.col-head.neutral { color: #a5b4fc; }
+
+/* Simple card */
+.card {
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  background: rgba(156, 163, 175, 0.1);
+  border: 1px solid rgba(107, 114, 128, 0.3);
+}
+.card h3 { margin: 0 0 0.3rem; font-size: 1rem; }
+.card p { margin: 0; font-size: 0.85rem; opacity: 0.9; }
+
+/* Mermaid centering */
+.mermaid { display: flex; justify-content: center; }
+
+/* Tighter default lists on dense slides */
+.slidev-layout.dense ul { margin-top: 0.25rem; }
+.slidev-layout.dense li { line-height: 1.45; }
+
+/* Full-slide diagram (graph engineering).
+
+   That slide is a title and one big mermaid figure, so the figure takes every
+   pixel the title leaves: `flex: 1` on the canvas plus a column layout on the
+   slide, and the negative inline margins let the wide graph bleed into the
+   layout's side padding.
+
+   Sizing has to come from the fence's `scale`, not from here: Slidev renders
+   mermaid into a shadow root, so no selector below reaches the svg. `scale`
+   sets the svg height to `viewBox height x scale` px and the width follows, so
+   the graph's 1105x515 viewBox lands at ~884x412 at scale 0.8. Re-measure and
+   re-pick the scale if you edit the graph.
+
+   Don't reach for per-diagram mermaid config (`{flowchart: {rankSpacing: ...}}`
+   in the fence, or a `%%{init}%%` directive) to make a diagram fit. It works in
+   the dev server and silently does not survive an export: /print renders every
+   slide at once, and mermaid resets its global config as each concurrent render
+   finishes, so the diagram comes out at default spacing or not at all. Size the
+   graph so it fits at mermaid's defaults. */
+.slidev-layout.graph-slide {
+  display: flex;
+  flex-direction: column;
+}
+.graph-canvas {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 -2.5rem 1.25rem;
+}
