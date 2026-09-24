@@ -11,6 +11,10 @@ Before starting implementation tasks, check available agents & skills.
 
 - **No dashes mid-sentence.** Don't use an em dash or en dash to join clauses or set off an aside. Use a colon when what follows explains or expands, a comma when it's an aside, or start a new sentence. This applies to prose I'll read or present: slide copy, docs, commit messages, PR descriptions, code comments. Bullet labels take a colon inside the bold (`**Context:** who you are`), not a dash after it. En dashes are still fine for numeric ranges (`2022 - 2024` stays a range), and hyphens in compound words are untouched.
 
+## Code style
+
+- **Comments are the rare exception, not the default.** Code should be self-documenting: legible, clear, and concise enough that it rarely needs explanation. Only add a comment for something the code itself can't convey, like a specific edge case or a fix for a particular bug. When you do write one, keep it short and factual, and never phrase it as a claim (about behavior, callers, history) that could go stale or become wrong as the code changes.
+
 ## Testing
 
 - **Colocate unit tests with source, 1:1 by name.** Place unit-test files next to the file they cover — never in a shared `tests/`, `__tests__/`, or `spec/` directory. Each test file maps to exactly one source file: `foo.ts` → `foo.test.ts`, `Hello.vue` → `Hello.test.ts`, `service.go` → `service_test.go`. When adding the first test in a project that currently uses a shared `tests/` dir, also migrate existing tests to the colocated layout and update any test-runner `include` globs and `tsconfig` paths. Integration and end-to-end tests are exempt — they may live in dedicated directories (e.g. `*_int_test.go`, `e2e/`, `integration/`).
