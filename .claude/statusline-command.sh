@@ -6,8 +6,11 @@ input=$(cat)
 # === Context window ===
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
 
-# === Current working directory ===
-cwd=$(echo "$input" | jq -r '.cwd // empty')
+# === Model and effort ===
+model=$(echo "$input" | jq -r '.model.display_name // empty')
+effort=$(echo "$input" | jq -r '.effort.level // empty')
+model_label="$model"
+[[ -n "$effort" ]] && model_label+=" ($effort)"
 
 # === Today's cost (cached, refreshed in background every 5 min) ===
 CACHE_FILE="/tmp/claude-today-cost"
@@ -88,5 +91,5 @@ for ((i=0; i<empty; i++)); do progress_bar+="░"; done
 progress_bar+="]"
 
 # === Output ===
-printf "\033[36mContext: %s %.0f%%\033[0m | \033[33mToday: \$%s (%s)\033[0m | 📁 %s\n" \
-  "$progress_bar" "$used_pct" "$cost_today" "$tokens_today" "$cwd"
+printf "\033[35m%s\033[0m | \033[36mContext: %s %.0f%%\033[0m | \033[33mToday: \$%s (%s)\033[0m\n" \
+  "$model_label" "$progress_bar" "$used_pct" "$cost_today" "$tokens_today"
