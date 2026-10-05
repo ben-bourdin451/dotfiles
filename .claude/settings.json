@@ -86,6 +86,11 @@
     }
   },
   "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
   "skipWorkflowUsageWarning": true,
   "preferredNotifChannel": "terminal_bell",
   "skipAutoPermissionPrompt": true,
@@ -96,5 +101,6 @@
       "Bash(aws ecs update-service:*)",
       "Bash(git push --force*)"
     ]
-  }
+  },
+  "model": "opus"
 }

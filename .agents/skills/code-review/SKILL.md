@@ -76,7 +76,7 @@ Ledger row format (one table; create the file with this header if it doesn't exi
 |------|----|-------|------|------------|---------|----------|--------|--------|---------|
 ```
 
-**Concurrency.** When an orchestrator fans the review out to parallel sub-agents (one PR each), the **orchestrator owns the ledger**: it runs the dedup check before dispatching and writes the consolidated table once after all agents return. Sub-agents must **not** each write the file (parallel writes clobber each other) — they only return their result. When running standalone on a single PR, perform the read/skip/update yourself.
+**Concurrency.** When an orchestrator fans the review out to parallel sub-agents (one PR each), the **orchestrator owns the ledger**: it runs the dedup check before dispatching (unchanged PRs get no sub-agent), then writes the consolidated table once after all agents return: upserting a row per reviewed PR from the sub-agents' results and applying housekeeping. Sub-agents must **not** each write the file (parallel writes clobber each other) — they only return their result. When running standalone on a single PR, perform the read/skip/update yourself.
 
 ## Before Reviewing
 
