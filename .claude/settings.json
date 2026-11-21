@@ -7,6 +7,7 @@
       "Bash(brew:*)",
       "Bash(cat:*)",
       "Bash(cargo:*)",
+      "Bash(config:*)",
       "Bash(docker:*)",
       "Bash(npm install:*)",
       "Bash(npm test:*)",
@@ -21,6 +22,7 @@
       "Bash(find:*)",
       "Bash(gh:*)",
       "Bash(git:*)",
+      "Bash(git --git-dir=$HOME/.dotfiles/:*)",
       "Bash(go:*)",
       "Bash(gofmt:*)",
       "Bash(grep:*)",
@@ -30,8 +32,6 @@
       "Bash(pnpm test:*)",
       "Bash(pnpm -w run lint:*)",
       "Bash(sed:*)",
-      "Bash(st:*)",
-      "Bash(stint:*)",
       "Bash(terraform fmt:*)",
       "Bash(terraform get:*)",
       "Bash(terraform init:*)",
@@ -53,6 +53,7 @@
     "deny": [],
     "defaultMode": "auto"
   },
+  "model": "opus",
   "disableClaudeAiConnectors": true,
   "hooks": {
     "SessionStart": [
@@ -75,13 +76,28 @@
     "gopls-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": false,
-    "cloudflare@cloudflare": false
+    "cloudflare@cloudflare": false,
+    "stripe@claude-plugins-official": true,
+    "posthog@posthog": true,
+    "typesafe@typesafe-ai": true
   },
   "extraKnownMarketplaces": {
     "cloudflare": {
       "source": {
         "source": "github",
         "repo": "cloudflare/skills"
+      }
+    },
+    "posthog": {
+      "source": {
+        "source": "github",
+        "repo": "PostHog/ai-plugin"
+      }
+    },
+    "typesafe-ai": {
+      "source": {
+        "source": "github",
+        "repo": "typesafe-ai/skills"
       }
     }
   },
@@ -93,6 +109,7 @@
   },
   "skipWorkflowUsageWarning": true,
   "preferredNotifChannel": "terminal_bell",
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "autoMode": {
     "soft_deny": [
@@ -101,6 +118,5 @@
       "Bash(aws ecs update-service:*)",
       "Bash(git push --force*)"
     ]
-  },
-  "model": "opus"
+  }
 }
